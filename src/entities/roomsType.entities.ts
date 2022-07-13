@@ -1,8 +1,8 @@
-import { Entity, Column, PrimaryColumn, OneToMany, Unique } from "typeorm";
+import { Entity, Column, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity("roomType")
 export class RoomType {
-  @PrimaryColumn({ type: "bigint" })
+  @PrimaryGeneratedColumn()
   readonly id: number;
 
   @Column({ type: "varchar", length: 50, nullable: false })
