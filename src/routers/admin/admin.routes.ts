@@ -1,15 +1,28 @@
 import { Router } from "express";
+import HotelController from "../../controllers/hotel/hotel.controller";
 
 const routesADM = Router();
 
 // Listagem e Criação de hotéis no banco de dados
-routesADM.post("" /*Controller de criação do hotel*/);
-routesADM.get("" /*Controller de listagem dos hotéis*/);
+routesADM.post("", HotelController.create /*Controller de criação do hotel*/);
+routesADM.get(
+  "",
+  HotelController.listHotel /*Controller de listagem dos hotéis*/
+);
 
 //Alterações de dados do hotel no banco de dados
-routesADM.patch("/:id" /*Controller de alteração de dados do hotel*/);
-routesADM.delete("/:id" /*Controller de deleção do hotel*/);
-routesADM.get("/:id" /*Controller de listagem do hotel*/);
+routesADM.patch(
+  "/:id",
+  HotelController.update /*Controller de alteração de dados do hotel*/
+);
+routesADM.delete(
+  "/:id",
+  HotelController.delete /*Controller de deleção do hotel*/
+);
+routesADM.get(
+  "/:id",
+  HotelController.infoHotel /*Controller de listagem do hotel*/
+);
 
 //Criação e listagem de cargos
 routesADM.post("/:id/jobtitles" /*Controller de criação de cargos do hotel*/);
