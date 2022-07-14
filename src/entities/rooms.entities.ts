@@ -1,4 +1,7 @@
-import { Entity, Column, PrimaryColumn, OneToMany } from "typeorm";
+import { Entity, Column, PrimaryColumn, OneToMany, ManyToOne } from "typeorm";
+import { v4 as uuid } from "uuid";
+import { Hotel } from "./systemHotel.entities";
+import { RoomType } from "./roomsType.entities";
 
 @Entity("Rooms")
 export class Rooms {
@@ -20,9 +23,15 @@ export class Rooms {
   @Column()
   isAvailable: boolean;
 
-  @Column({ type: "integer" })
-  idRoomType: number; //Foreign Key, fazer relação
+  @ManyToOne(() => Hotel)
+  hotel: Hotel;
 
-  @Column({ type: "integer" })
-  idHotel: number; //Foreign Key, fazer relação
+  @ManyToOne(() => RoomType, { eager: true })
+  roomType: RoomType;
+
+  constructor() {
+    if (!this.id) {
+      this.id = uuid();
+    }
+  }
 }

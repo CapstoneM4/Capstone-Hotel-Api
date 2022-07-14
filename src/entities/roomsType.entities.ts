@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
+import { Rooms } from "./rooms.entities";
 
 @Entity("RoomType")
 export class RoomType {
@@ -16,4 +17,7 @@ export class RoomType {
 
   @Column({ type: "integer" })
   qtyDoubleBed: number;
+
+  @OneToMany(() => Rooms, (rooms) => rooms.roomType)
+  rooms: Rooms[];
 }

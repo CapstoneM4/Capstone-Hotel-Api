@@ -1,6 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
+import { Employees } from "./employees.entities";
 
-@Entity("Job")
+@Entity("Roles")
 export class JobTitles {
   @PrimaryGeneratedColumn()
   readonly id: string;
@@ -10,4 +11,7 @@ export class JobTitles {
 
   @Column({ length: 200 })
   description: string;
+
+  @OneToMany(() => Employees, (employees) => employees.jobTitles)
+  employees: Employees[];
 }

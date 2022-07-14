@@ -1,4 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
+import { Hotel } from "./systemHotel.entities";
+import { JobTitles } from "./jobTitles.entities";
 
 @Entity("Employees")
 export class Employees {
@@ -19,4 +21,10 @@ export class Employees {
 
   @Column({ default: true })
   isActive: boolean;
+
+  @ManyToOne(() => Hotel, { eager: true })
+  hotel: Hotel;
+
+  @ManyToOne(() => JobTitles, { eager: true })
+  jobTitles: JobTitles;
 }

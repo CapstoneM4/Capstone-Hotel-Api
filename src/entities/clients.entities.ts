@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryColumn, OneToMany, Unique } from "typeorm";
 import { v4 as uuid } from "uuid";
+import { Booking } from "./booking.entities";
 
 @Entity("Clients")
 export class Clients {
@@ -20,6 +21,9 @@ export class Clients {
 
   @Column()
   isAlocated: boolean;
+
+  @OneToMany(() => Booking, (booking) => booking.client)
+  booking: Booking[];
 
   constructor() {
     if (!this.id) {
