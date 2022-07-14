@@ -22,13 +22,13 @@ export class Hotel {
   address: string;
 
   @OneToMany(() => Employees, (employees) => employees.hotel)
-  employee: Employees[];
+  employees: Employees[];
 
   @OneToMany(() => Rooms, (rooms) => rooms.hotel)
   rooms: Rooms[];
 
   @OneToMany(() => Booking, (booking) => booking.hotel)
-  booking: Rooms[];
+  booking: Booking[];
 
   constructor() {
     if (!this.id) {

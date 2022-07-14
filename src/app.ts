@@ -1,8 +1,8 @@
 import express from "express";
 import "reflect-metadata";
-import routesADM from "./routers/admin";
-import routesClients from "./routers/clients";
-import routesEmployee from "./routers/employee";
+import routesADM from "./routers/admin/admin.routes";
+import routesClients from "./routers/clients/clients.routes";
+import routesEmployee from "./routers/employee/employee.routes";
 
 const app = express();
 app.use(express.json());

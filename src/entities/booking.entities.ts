@@ -34,15 +34,14 @@ export class Booking {
   @OneToMany(() => BookingService, (bookingService) => bookingService.booking)
   bookingService: BookingService[];
 
-  @OneToOne(() => Rooms, (rooms) => rooms.booking) // specify inverse side as a second parameter
-  @JoinColumn()
-  rooms: Rooms;
-
   @ManyToOne(() => Hotel)
   hotel: Hotel;
 
   @ManyToOne(() => Clients, { eager: true })
   client: Clients;
+
+  @ManyToOne(() => Rooms, { eager: true })
+  rooms: Rooms;
 
   constructor() {
     if (!this.id) {

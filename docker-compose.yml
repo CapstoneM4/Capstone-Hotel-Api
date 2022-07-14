@@ -8,9 +8,9 @@ services:
       - 3000:3000
     environment:
       - DB_HOST=db
-      - DB_USER=system
+      - DB_USER=systemHotel
       - DB_PASSWORD=1234
-      - DB=system_database
+      - DB=system_hotel_database
       - SECRET_KEY=b30453f0e24109e497164a011c5949f4
     depends_on:
       db:
@@ -38,3 +38,8 @@ services:
 volumes:
   tcm:
     driver: local
+# - DB_HOST=db
+#       - DB_USER=system
+#       - DB_PASSWORD=1234
+#       - DB=system_database
+#       - SECRET_KEY=b30453f0e24109e497164a011c5949f4

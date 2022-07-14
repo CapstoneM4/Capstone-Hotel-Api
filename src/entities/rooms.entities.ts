@@ -35,11 +35,9 @@ export class Rooms {
   @ManyToOne(() => Hotel)
   hotel: Hotel;
 
-  @Column({ type: "integer" })
-  idHotel: number; //Foreign Key, fazer relação
+  @OneToMany(() => Booking, (booking) => booking.rooms)
+  booking: Booking[];
 
-  @OneToOne(() => Booking, (booking) => booking.rooms) // specify inverse side as a second parameter
-  booking: Booking;
   @ManyToOne(() => RoomType, { eager: true })
   roomType: RoomType;
 
