@@ -1,4 +1,12 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToMany,
+  JoinTable,
+} from "typeorm";
+
+import { BookingService } from "./bookingServices.entities";
 
 @Entity("Services")
 export class Services {
@@ -13,4 +21,8 @@ export class Services {
 
   @Column({ type: "decimal", precision: 8, scale: 2 })
   price: number;
+
+  @ManyToMany(() => BookingService, (bookingService) => bookingService.services)
+  @JoinTable()
+  bookingService: BookingService[];
 }

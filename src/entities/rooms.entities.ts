@@ -1,4 +1,13 @@
-import { Entity, Column, PrimaryColumn, OneToMany } from "typeorm";
+import {
+  Entity,
+  Column,
+  PrimaryColumn,
+  OneToMany,
+  OneToOne,
+  JoinColumn,
+} from "typeorm";
+
+import { Booking } from "./booking.entities";
 
 @Entity("Rooms")
 export class Rooms {
@@ -25,4 +34,7 @@ export class Rooms {
 
   @Column({ type: "integer" })
   idHotel: number; //Foreign Key, fazer relação
+
+  @OneToOne(() => Booking, (booking) => booking.rooms) // specify inverse side as a second parameter
+  booking: Booking;
 }

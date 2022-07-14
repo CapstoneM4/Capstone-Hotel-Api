@@ -1,4 +1,12 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  ManyToMany,
+  JoinTable,
+} from "typeorm";
+import { BookingService } from "./bookingServices.entities";
 
 @Entity("Employees")
 export class Employees {
@@ -19,4 +27,11 @@ export class Employees {
 
   @Column({ default: true })
   isActive: boolean;
+
+  @ManyToMany(
+    () => BookingService,
+    (bookingService) => bookingService.employees
+  )
+  @JoinTable()
+  bookingService: BookingService[];
 }

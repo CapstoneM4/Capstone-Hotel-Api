@@ -3,9 +3,13 @@ import {
   Column,
   PrimaryColumn,
   CreateDateColumn,
-  ManyToOne,
+  OneToMany,
   OneToOne,
+  JoinColumn,
 } from "typeorm";
+
+import { BookingService } from "./bookingServices.entities";
+import { Rooms } from "./rooms.entities";
 
 @Entity("booking")
 export class Booking {
@@ -23,4 +27,11 @@ export class Booking {
 
   @Column({ nullable: false })
   qtyClients: boolean;
+
+  @OneToMany(() => BookingService, (bookingService) => bookingService.booking)
+  bookingService: BookingService[];
+
+  @OneToOne(() => Rooms, (rooms) => rooms.booking) // specify inverse side as a second parameter
+  @JoinColumn()
+  rooms: Rooms;
 }
