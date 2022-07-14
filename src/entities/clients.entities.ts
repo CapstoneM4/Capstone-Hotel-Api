@@ -1,22 +1,29 @@
 import { Entity, Column, PrimaryColumn, OneToMany, Unique } from "typeorm";
+import { v4 as uuid } from "uuid";
 
-@Entity("clients")
+@Entity("Clients")
 export class Clients {
   @PrimaryColumn("uuid")
   readonly id: string;
 
-  @Column({ type: "varchar", length: 50, nullable: false })
+  @Column({ type: "varchar", length: 50 })
   name: string;
 
-  @Column({ type: "varchar", length: 50, nullable: false })
+  @Column({ type: "varchar", length: 50 })
   email: string;
 
-  @Column({ type: "integer", nullable: false })
-  personal_id: number;
+  @Column()
+  personalId: string;
 
-  @Column({ type: "varchar", length: 11, nullable: false, unique: true })
+  @Column({ type: "varchar", length: 11, unique: true })
   cell: string;
 
   @Column()
-  is_alocated: boolean;
+  isAlocated: boolean;
+
+  constructor() {
+    if (!this.id) {
+      this.id = uuid();
+    }
+  }
 }

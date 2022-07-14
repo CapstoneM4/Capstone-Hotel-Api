@@ -1,19 +1,19 @@
 import { Entity, Column, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity("roomType")
+@Entity("RoomType")
 export class RoomType {
   @PrimaryGeneratedColumn()
   readonly id: number;
 
-  @Column({ type: "varchar", length: 50, nullable: false })
+  @Column({ type: "varchar", length: 50, unique: true })
   type: string;
 
-  @Column({ type: "integer", nullable: false })
-  qty_clients: number;
+  @Column({ type: "integer" })
+  qtyClients: number;
 
   @Column({ type: "integer" })
-  qty_single_bed: number;
+  qtySingleBed: number;
 
   @Column({ type: "integer" })
-  qty_double_bed: number;
+  qtyDoubleBed: number;
 }

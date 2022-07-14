@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
 
-@Entity("job")
+@Entity("Job")
 export class JobTitles {
   @PrimaryGeneratedColumn()
   readonly id: string;

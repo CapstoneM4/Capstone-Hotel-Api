@@ -1,29 +1,22 @@
-import { Entity, Column, PrimaryColumn, ManyToOne } from "typeorm";
-import { v4 as uuid } from "uuid";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
 
-@Entity("employees")
+@Entity("Employees")
 export class Employees {
-  @PrimaryColumn("uuid")
+  @PrimaryGeneratedColumn()
   readonly id: string;
 
-  @Column({ type: "varchar", length: 50, nullable: false })
+  @Column({ type: "varchar", length: 50 })
   name: string;
 
-  @Column({ type: "varchar", length: 50, nullable: false })
+  @Column({ type: "varchar", length: 50 })
   email: string;
 
-  @Column({ type: "varchar", length: 200, nullable: false })
+  @Column({ type: "varchar", length: 200 })
   password: string;
 
   @Column({ default: false })
-  is_adm: boolean;
+  isAdm: boolean;
 
-  @Column({ nullable: false, default: true })
-  is_active: boolean;
-
-  constructor() {
-    if (!this.id) {
-      this.id = uuid();
-    }
-  }
+  @Column({ default: true })
+  isActive: boolean;
 }

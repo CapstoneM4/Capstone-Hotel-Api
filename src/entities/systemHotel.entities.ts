@@ -1,19 +1,19 @@
 import { Entity, Column, PrimaryColumn, OneToMany } from "typeorm";
 
-@Entity("hotel")
+@Entity("Hotel")
 export class Hotel {
   @PrimaryColumn("uuid")
   readonly id: string;
 
-  @Column({ length: 50, nullable: false })
+  @Column({ length: 50 })
   name: string;
 
-  @Column({ nullable: false })
-  quantityBedRooms: number;
+  @Column()
+  qtyBedRooms: number;
 
-  @Column({ length: 20, nullable: false })
+  @Column({ length: 20 })
   cnpj: string;
 
-  @Column({ length: 150, nullable: false })
+  @Column({ length: 150 })
   address: string;
 }
