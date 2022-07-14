@@ -7,6 +7,8 @@ import {
   JoinTable,
 } from "typeorm";
 import { BookingService } from "./bookingServices.entities";
+import { Hotel } from "./systemHotel.entities";
+import { JobTitles } from "./jobTitles.entities";
 
 @Entity("Employees")
 export class Employees {
@@ -34,4 +36,9 @@ export class Employees {
   )
   @JoinTable()
   bookingService: BookingService[];
+  @ManyToOne(() => Hotel, { eager: true })
+  hotel: Hotel;
+
+  @ManyToOne(() => JobTitles, { eager: true })
+  jobTitles: JobTitles;
 }

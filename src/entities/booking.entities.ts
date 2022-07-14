@@ -6,12 +6,15 @@ import {
   OneToMany,
   OneToOne,
   JoinColumn,
+  ManyToOne,
 } from "typeorm";
-
+import { v4 as uuid } from "uuid";
+import { Hotel } from "./systemHotel.entities";
+import { Clients } from "./clients.entities";
 import { BookingService } from "./bookingServices.entities";
 import { Rooms } from "./rooms.entities";
 
-@Entity("booking")
+@Entity("Booking")
 export class Booking {
   @PrimaryColumn("uuid")
   readonly id: string;
@@ -34,4 +37,16 @@ export class Booking {
   @OneToOne(() => Rooms, (rooms) => rooms.booking) // specify inverse side as a second parameter
   @JoinColumn()
   rooms: Rooms;
+
+  @ManyToOne(() => Hotel)
+  hotel: Hotel;
+
+  @ManyToOne(() => Clients, { eager: true })
+  client: Clients;
+
+  constructor() {
+    if (!this.id) {
+      this.id = uuid();
+    }
+  }
 }
