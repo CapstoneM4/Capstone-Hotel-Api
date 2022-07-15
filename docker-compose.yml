@@ -1,0 +1,45 @@
+version: "3.9"
+
+services:
+  api:
+    container_name: api_system_hotel
+    build: .
+    ports:
+      - 3000:3000
+    environment:
+      - DB_HOST=db
+      - DB_USER=systemHotel
+      - DB_PASSWORD=1234
+      - DB=system_hotel_database
+      - SECRET_KEY=b30453f0e24109e497164a011c5949f4
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - .:/app
+
+  db:
+    container_name: db_system_hotel
+    image: postgres:14.4-alpine
+    ports:
+      - 5431:5432
+    environment:
+      - POSTGRES_USER=systemHotel
+      - POSTGRES_PASSWORD=1234
+      - POSTGRES_DB=system_hotel_database
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U systemHotel -d system_hotel_database"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+    volumes:
+      - tcm:/var/lib/postgresql/data
+volumes:
+  tcm:
+    driver: local
+# - DB_HOST=db
+#       - DB_USER=system
+#       - DB_PASSWORD=1234
+#       - DB=system_database
+#       - SECRET_KEY=b30453f0e24109e497164a011c5949f4
