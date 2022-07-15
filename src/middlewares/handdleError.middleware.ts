@@ -1,17 +1,19 @@
 import { Request, Response, NextFunction } from "express";
+import { AppError } from "../errors/AppError";
 
-const isAdmUserMiddleware = (
+const handleAppErrorMiddleware = (
+  error: Error,
   req: Request,
   res: Response,
-  next: NextFunction
+  _: NextFunction
 ) => {
-  if (!req.user.adm) {
-    return res.status(403).json({
-      message: "User is not admin",
+  if (error instanceof AppError) {
+    return res.status(error.statusCode).json({
+      message: error.message,
     });
   }
-
-  next();
+  return res.status(500).json({
+    message: "Internal server error",
+  });
 };
-
-export default isAdmUserMiddleware;
+export default handleAppErrorMiddleware;

@@ -1,5 +1,7 @@
 import { Router } from "express";
 import HotelController from "../../controllers/hotel/hotel.controller";
+import JobTitleController from "../../controllers/jobTitle/JobTitle.controller";
+
 
 const routesADM = Router();
 
@@ -25,18 +27,26 @@ routesADM.get(
 );
 
 //Criação e listagem de cargos
-routesADM.post("/:id/jobtitles" /*Controller de criação de cargos do hotel*/);
-routesADM.get("/:id/jobtitles" /*Controller de listagem dos cargos do hotel*/);
+routesADM.post(
+  "/:id/jobtitles",
+  JobTitleController.create /*Controller de criação de cargos do hotel*/
+);
+routesADM.get(
+  "/:id/jobtitles",
+  JobTitleController.listAll /*Controller de listagem dos cargos do hotel*/
+);
 
 //Alterações de dados nos cargos
 routesADM.get(
-  "/:id/jobtitles/:id" /*Controller de listagem do cargo do hotel*/
+  "/:id/jobtitles/:id",
+  JobTitleController.listOne /*Controller de listagem do cargo do hotel*/
 );
 routesADM.patch(
   "/:id/jobtitles/:id" /*Controller de alteração de dados do cargo no hotel*/
 );
 routesADM.delete(
-  "/:id/jobtitles/:id" /*Controller de deleção de dados do cargo no hotel*/
+  "/:id/jobtitles/:id",
+  JobTitleController.delete /*Controller de deleção de dados do cargo no hotel*/
 );
 
 //Criação e listagem dos quartos do hotel
