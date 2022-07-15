@@ -3,7 +3,6 @@ import { Hotel } from "../../entities/systemHotel.entities";
 import { AppError } from "../../errors/AppError";
 import {
   IHotelDelete,
-  IHotelSystem,
   IHotelSystemCreate,
   IHotelUpdate,
 } from "../../interfaces/hotel";
@@ -17,12 +16,13 @@ class HotelService {
     address,
   }: IHotelSystemCreate) {
     const hotelRepository = AppDataSource.getRepository(Hotel);
-    const hotels = await hotelRepository.find();
-    const hotelAlreadyExist = hotels.find((hotel) => hotel.cnpj === cnpj);
+    const hotels = await hotelRepository.findOne({ where: { cnpj } });
+    // const hotelAlreadyExist = hotels.findOne();
 
-    if (hotelAlreadyExist) {
-      throw new AppError("CNPJ already exist");
+    if (hotels) {
+      throw new AppError(400, "CNPJ alerady exist");
     }
+
     const hotel = new Hotel();
     hotel.name = name;
     hotel.qtyBedRooms = qtyBedRooms;
@@ -37,7 +37,7 @@ class HotelService {
   static async readList() {
     const hotelRepository = AppDataSource.getRepository(Hotel);
     const hotelList = await hotelRepository.find();
-    console.log(hotelList);
+    // console.log(hotelList);
     return hotelList;
   }
   //update
@@ -45,7 +45,7 @@ class HotelService {
     const hotelRepository = AppDataSource.getRepository(Hotel);
     const hotel = await hotelRepository.findOneBy({ id: id });
     if (!hotel) {
-      throw new AppError("Hotel not Found!");
+      throw new AppError(400, "Hotel not Found!");
     }
 
     Object.assign(hotel, { name, cnpj, address, qtyBedRooms });
@@ -58,7 +58,7 @@ class HotelService {
     const listHotel = await hotelRepository.find();
     const hotelDelete = listHotel.find((hotel) => hotel.id === id);
     if (!hotelDelete) {
-      throw new AppError("Hotel not found!");
+      // throw new AppError("Hotel not found!", 400);
     }
     await hotelRepository.delete(id);
     return;
