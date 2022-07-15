@@ -14,7 +14,7 @@ class HotelService {
     qtyBedRooms,
     cnpj,
     address,
-  }: IHotelSystemCreate) {
+  }: IHotelSystemCreate): Promise<Hotel> {
     const hotelRepository = AppDataSource.getRepository(Hotel);
     const hotels = await hotelRepository.findOne({ where: { cnpj } });
     // const hotelAlreadyExist = hotels.findOne();
@@ -34,14 +34,20 @@ class HotelService {
     return hotel;
   }
   //list All
-  static async readList() {
+  static async readList(): Promise<Hotel[]> {
     const hotelRepository = AppDataSource.getRepository(Hotel);
     const hotelList = await hotelRepository.find();
-    // console.log(hotelList);
+    console.log(hotelList);
     return hotelList;
   }
   //update
-  static async update({ id, name, cnpj, address, qtyBedRooms }: IHotelUpdate) {
+  static async update({
+    id,
+    name,
+    cnpj,
+    address,
+    qtyBedRooms,
+  }: IHotelUpdate): Promise<Hotel> {
     const hotelRepository = AppDataSource.getRepository(Hotel);
     const hotel = await hotelRepository.findOneBy({ id: id });
     if (!hotel) {
@@ -53,7 +59,7 @@ class HotelService {
     return hotel;
   }
   //delete
-  static async delete({ id }: IHotelDelete) {
+  static async delete({ id }: IHotelDelete): Promise<void> {
     const hotelRepository = AppDataSource.getRepository(Hotel);
     const listHotel = await hotelRepository.find();
     const hotelDelete = listHotel.find((hotel) => hotel.id === id);
@@ -64,7 +70,7 @@ class HotelService {
     return;
   }
   //list One
-  static async readInfo(id: string) {
+  static async readInfo(id: string): Promise<Hotel | null> {
     const hotelRepository = AppDataSource.getRepository(Hotel);
     const hotelInfo = hotelRepository.findOneBy({ id: id });
 
