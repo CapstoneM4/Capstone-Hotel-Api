@@ -4,41 +4,29 @@ import HotelService from "../../services/hotel/hotel.service";
 
 class HotelController {
   static async create(req: Request, res: Response) {
-    try {
-      const { name, qtyBedRooms, cnpj, address } = req.body;
-      const newHotel = await HotelService.create({
-        name,
-        qtyBedRooms,
-        cnpj,
-        address,
-      });
+    const { name, qtyBedRooms, cnpj, address } = req.body;
+    const newHotel = await HotelService.create({
+      name,
+      qtyBedRooms,
+      cnpj,
+      address,
+    });
 
-      return res.status(201).send(newHotel);
-    } catch (err) {
-      if (err instanceof AppError) {
-        handleError(err, res);
-      }
-    }
+    return res.status(201).send(newHotel);
   }
 
   static async update(req: Request, res: Response) {
-    try {
-      const id: string = req.params.id;
-      const { name, qtyBedRooms, cnpj, address } = req.body;
-      const updatedHotel = await HotelService.update({
-        name,
-        qtyBedRooms,
-        cnpj,
-        address,
-        id,
-      });
+    const id: string = req.params.id;
+    const { name, qtyBedRooms, cnpj, address } = req.body;
+    const updatedHotel = await HotelService.update({
+      name,
+      qtyBedRooms,
+      cnpj,
+      address,
+      id,
+    });
 
-      return res.status(201).send(updatedHotel);
-    } catch (err) {
-      if (err instanceof AppError) {
-        handleError(err, res);
-      }
-    }
+    return res.status(201).send(updatedHotel);
   }
 
   static async delete(req: Request, res: Response) {

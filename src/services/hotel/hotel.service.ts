@@ -20,7 +20,7 @@ class HotelService {
     // const hotelAlreadyExist = hotels.findOne();
 
     if (hotels) {
-      throw new AppError(400, "CNPJ alerady exist");
+      throw new AppError(403, "Invalid credentials");
     }
 
     const hotel = new Hotel();
