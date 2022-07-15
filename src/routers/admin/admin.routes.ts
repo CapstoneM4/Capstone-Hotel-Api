@@ -1,4 +1,5 @@
 import { Router } from "express";
+import EmployeesControllers from "../../controllers/employees/employees.controllers";
 
 const routesADM = Router();
 
@@ -39,7 +40,8 @@ routesADM.delete("/:id/rooms/:id" /*Controller de deleção do quarto do hotel*/
 
 //Criação de funcionários
 routesADM.post(
-  "/:id/employees" /*Controller de criação dos funcionários do hotel*/
+  "/employees",
+  EmployeesControllers.create /*faltando id do hotel ex: "/:id/employees" */
 );
 routesADM.get(
   "/:id/employees" /*Controller de listagem dos funcionários do hotel*/
