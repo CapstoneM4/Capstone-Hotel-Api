@@ -17,7 +17,6 @@ class HotelService {
   }: IHotelSystemCreate): Promise<Hotel> {
     const hotelRepository = AppDataSource.getRepository(Hotel);
     const hotels = await hotelRepository.findOne({ where: { cnpj } });
-    // const hotelAlreadyExist = hotels.findOne();
 
     if (hotels) {
       throw new AppError(403, "Invalid credentials");
