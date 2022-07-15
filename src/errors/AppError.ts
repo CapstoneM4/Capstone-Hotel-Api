@@ -1,5 +1,3 @@
-import { Response } from "express";
-
 export class AppError extends Error {
   statusCode;
 

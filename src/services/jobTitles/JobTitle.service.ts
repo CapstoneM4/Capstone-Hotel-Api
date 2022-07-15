@@ -1,7 +1,7 @@
 import AppDataSource from "../../data-source";
 import { JobTitles } from "../../entities/jobTitles.entities";
 import { AppError } from "../../errors/AppError";
-import { IJobTitleCreate, IJobTitleUpdate } from "../../interfaces";
+import { IJobTitleCreate, IJobTitleUpdate } from "../../interfaces/employee";
 
 class JobTitleService {
   static jobTitleRespository = AppDataSource.getRepository(JobTitles);
@@ -16,9 +16,6 @@ class JobTitleService {
     const jobTitleAlreadyExists = await this.jobTitleRespository.findOneBy({
       name: name,
     });
-
-    console.log(!!jobTitleAlreadyExists);
-    console.log(jobTitleAlreadyExists);
 
     if (jobTitleAlreadyExists) {
       throw new AppError(404, "JobTitle already exists on this hotel");
