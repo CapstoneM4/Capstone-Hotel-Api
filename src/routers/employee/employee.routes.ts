@@ -1,4 +1,5 @@
 import { Router } from "express";
+import ServicesHotelController from "../../controllers/servicesHotel";
 
 const routesEmployee = Router();
 
@@ -29,10 +30,21 @@ routesEmployee.post(
 );
 
 //Criação de services no banco de dados
-routesEmployee.get("" /*Controller de listagem de dados dos services*/);
-routesEmployee.post("" /*Controller de criação de dados dos services*/);
+routesEmployee.get(
+  "/listServices",
+  ServicesHotelController.list
+  /*Controller de listagem de dados dos services*/
+);
+routesEmployee.post(
+  "/createServices",
+  ServicesHotelController.create /*Controller de criação de dados dos services*/
+);
 
 //Listagem dos services
-routesEmployee.get("/:id" /*Controller de listagem de dados do service*/);
+routesEmployee.get(
+  "/listServices/:id",
+  ServicesHotelController.listOne
+  /*Controller de listagem de dados do service*/
+);
 
 export default routesEmployee;
