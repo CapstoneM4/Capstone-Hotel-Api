@@ -1,10 +1,13 @@
 import AppDataSource from "../../data-source";
 import { Services } from "../../entities/services.entities";
+import { BookingService } from "../../entities/bookingServices.entities";
 // import { AppError } from "../../errors/AppError";
 import { IServicesCreate } from "../../interfaces/servicesInterfaces";
 
 class ServicesHotelService {
   static servicesRepository = AppDataSource.getRepository(Services);
+  static bookingServicesRepository =
+    AppDataSource.getRepository(BookingService);
   static async services() {
     return await this.servicesRepository.find();
   }
@@ -37,6 +40,7 @@ class ServicesHotelService {
   //LIST ALL
   static async ListServServices(): Promise<Services[]> {
     const allServices = this.services();
+
     return allServices;
   }
 
