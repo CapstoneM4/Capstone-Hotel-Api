@@ -14,7 +14,7 @@ export interface IHotelUpdate {
   name?: string;
   qtyBedRooms?: number;
   cnpj?: string;
-  address?: boolean;
+  address?: string;
 }
 
 export interface IHotelDelete {
