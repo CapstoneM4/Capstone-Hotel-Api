@@ -1,10 +1,10 @@
 import express from "express";
-import "reflect-metadata";
 import "express-async-errors";
+import "reflect-metadata";
+import handleAppErrorMiddleware from "./middlewares/handleAppError.middleware";
 import routesADM from "./routers/admin/admin.routes";
 import routesClients from "./routers/clients/clients.routes";
 import routesEmployee from "./routers/employee/employee.routes";
-import handleAppErrorMiddleware from "./middlewares/handdleError.middleware";
 
 const app = express();
 app.use(express.json());

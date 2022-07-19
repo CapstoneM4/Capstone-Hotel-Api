@@ -1,12 +1,4 @@
-import {
-  Entity,
-  Column,
-  PrimaryColumn,
-  OneToMany,
-  OneToOne,
-  JoinColumn,
-  ManyToOne,
-} from "typeorm";
+import { Entity, Column, PrimaryColumn, OneToMany, ManyToOne } from "typeorm";
 import { Booking } from "./booking.entities";
 import { v4 as uuid } from "uuid";
 import { Hotel } from "./systemHotel.entities";
@@ -32,13 +24,13 @@ export class Rooms {
   @Column()
   isAvailable: boolean;
 
-  @ManyToOne(() => Hotel)
+  @ManyToOne(() => Hotel, (hotel) => hotel.rooms)
   hotel: Hotel;
 
   @OneToMany(() => Booking, (booking) => booking.rooms)
   booking: Booking[];
 
-  @ManyToOne(() => RoomType, { eager: true })
+  @ManyToOne(() => RoomType, (roomType) => roomType.rooms, { eager: true })
   roomType: RoomType;
 
   constructor() {
