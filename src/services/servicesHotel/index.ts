@@ -1,6 +1,6 @@
 import AppDataSource from "../../data-source";
 import { Services } from "../../entities/services.entities";
-// import { AppError } from "../../errors/AppError";
+import { AppError } from "../../errors/AppError";
 import { IServicesCreate } from "../../interfaces/servicesInterfaces";
 
 class ServicesHotelService {
@@ -15,13 +15,14 @@ class ServicesHotelService {
     description,
     price,
   }: IServicesCreate): Promise<Services> {
-    const ServicesAlreadyExists = await this.servicesRepository.findOneBy({
-      name: name,
-    });
+    const ServicesList = await this.services();
+    const ServicesAlreadyExists = ServicesList.find(
+      (service) => service.name === name
+    );
 
-    /*     if (ServicesAlreadyExists) {
-      throw new AppError(404, "Services already exists on this hotel");
-    } */
+    if (ServicesAlreadyExists) {
+      throw new AppError(400, "Services already exists on this hotel");
+    }
 
     const services = new Services();
     services.name = name;
@@ -41,13 +42,16 @@ class ServicesHotelService {
   }
 
   //LIST ONE
-  static async ListOneServices(id: number) /* : Promise<Services> */ {
-    const services = AppDataSource.getRepository(Services);
-    const servicesOne = await services.findOneBy({ id: id });
+  static async ListOneServices(id: number): Promise<Services> {
+    const servicesList = await this.services();
+    const servicesOne = servicesList.find(
+      (service) => service.id === id
+    );
 
-    /*     if(!servicesOne){
-        throw new AppError(404, "Services not found");
-    } */
+    if (!servicesOne) {
+      throw new AppError(404, "Services not found");
+    }
+
     return servicesOne;
   }
 }

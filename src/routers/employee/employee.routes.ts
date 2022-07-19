@@ -31,18 +31,18 @@ routesEmployee.post(
 
 //Criação de services no banco de dados
 routesEmployee.get(
-  "/listServices",
+  "",
   ServicesHotelController.list
   /*Controller de listagem de dados dos services*/
 );
 routesEmployee.post(
-  "/createServices",
+  "",
   ServicesHotelController.create /*Controller de criação de dados dos services*/
 );
 
 //Listagem dos services
 routesEmployee.get(
-  "/listServices/:id",
+  "/:id",
   ServicesHotelController.listOne
   /*Controller de listagem de dados do service*/
 );
