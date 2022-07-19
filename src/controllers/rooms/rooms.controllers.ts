@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import RoomsServices from "../../services/rooms.service";
+import RoomsServices from "../../services/rooms/rooms.service";
 
 class RoomsControllers {
   static async createRooms(req: Request, res: Response) {
