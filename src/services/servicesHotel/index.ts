@@ -1,11 +1,12 @@
 import AppDataSource from "../../data-source";
 import { Services } from "../../entities/services.entities";
+
 import { AppError } from "../../errors/AppError";
+
 import { IServicesCreate } from "../../interfaces/servicesInterfaces";
 
 class ServicesHotelService {
   static servicesRepository = AppDataSource.getRepository(Services);
-
   static async services() {
     return await this.servicesRepository.find();
   }
@@ -16,6 +17,7 @@ class ServicesHotelService {
     description,
     price,
   }: IServicesCreate): Promise<Services> {
+
     const ServicesList = await this.services();
     const ServicesAlreadyExists = ServicesList.find(
       (service) => service.name === name
@@ -24,6 +26,7 @@ class ServicesHotelService {
     if (ServicesAlreadyExists) {
       throw new AppError(400, "Services already exists on this hotel");
     }
+
 
     const services = new Services();
     services.name = name;
@@ -39,7 +42,6 @@ class ServicesHotelService {
   //LIST ALL
   static async ListServServices(): Promise<Services[]> {
     const allServices = this.services();
-
     return allServices;
   }
 
@@ -51,7 +53,6 @@ class ServicesHotelService {
     if (!servicesOne) {
       throw new AppError(404, "Services not found");
     }
-
     return servicesOne;
   }
 }
