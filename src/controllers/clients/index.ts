@@ -7,8 +7,8 @@ class ClientsHotelController {
     return res.status(200).json(users);
   }
   static async CreateClients(req: Request, res: Response) {
-    const { name, email, personal_id, cell, is_alocaated } = req.body;
-    const user = { name, email, personal_id, cell, is_alocaated };
+    const { name, email, personalId, cell, isAlocated } = req.body;
+    const user = { name, email, personalId, cell, isAlocated };
 
     const create = await ClientsHotelServices.ClientsCreate(user);
     return res.status(201).json(create);

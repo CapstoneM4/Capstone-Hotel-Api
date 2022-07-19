@@ -8,7 +8,7 @@ routesClients.post(
   ClientsHotelController.CreateClients /*Controller de criação de clientes*/
 );
 routesClients.get(
-  "/",
+  "",
   ClientsHotelController.ListAllClients /*Controller de listagem dos clientes*/
 );
 routesClients.get(
