@@ -29,19 +29,19 @@ export class Booking {
   isPaid: boolean;
 
   @Column({ nullable: false })
-  qtyClients: boolean;
+  qtyClients: number;
 
   @OneToMany(() => BookingService, (bookingService) => bookingService.booking)
   bookingService: BookingService[];
 
   @ManyToOne(() => Hotel)
-  hotel: Hotel;
+  hotel: string;
 
-  @ManyToOne(() => Clients, (client) => client.booking)
-  client: Clients;
+  @ManyToOne(() => Clients, { eager: true })
+  client: string;
 
   @ManyToOne(() => Rooms, { eager: true })
-  rooms: Rooms;
+  room: string;
 
   constructor() {
     if (!this.id) {
