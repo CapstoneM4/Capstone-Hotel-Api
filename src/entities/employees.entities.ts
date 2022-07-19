@@ -37,9 +37,11 @@ export class Employees {
   @JoinTable()
   bookingService: BookingService[];
 
-  @ManyToOne(() => Hotel, { eager: true })
+  @ManyToOne(() => Hotel, (hotel) => hotel.employees)
   hotel: Hotel;
 
-  @ManyToOne(() => JobTitles, { eager: true })
+  @ManyToOne(() => JobTitles, (jobTitles) => jobTitles.employees, {
+    eager: true,
+  })
   jobTitles: JobTitles;
 }

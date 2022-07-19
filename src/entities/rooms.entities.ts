@@ -32,13 +32,13 @@ export class Rooms {
   @Column()
   isAvailable: boolean;
 
-  @ManyToOne(() => Hotel)
+  @ManyToOne(() => Hotel, (hotel) => hotel.rooms)
   hotel: Hotel;
 
   @OneToMany(() => Booking, (booking) => booking.rooms)
   booking: Booking[];
 
-  @ManyToOne(() => RoomType, { eager: true })
+  @ManyToOne(() => RoomType, (roomType) => roomType.rooms, { eager: true })
   roomType: RoomType;
 
   constructor() {

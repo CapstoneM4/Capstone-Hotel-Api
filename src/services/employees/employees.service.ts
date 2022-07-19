@@ -3,14 +3,15 @@ import { AppError } from "../../errors/AppError";
 import { Employees } from "../../entities/employees.entities";
 import { hash } from "bcryptjs";
 import { IEmployeesRequest } from "../../interfaces/employees";
+import { Hotel } from "../../entities/systemHotel.entities";
 
 class EmployeesServices {
-  static async createEmploeeys({
-    name,
-    email,
-    password,
-  }: IEmployeesRequest): Promise<Employees[]> {
+  static async createEmploeeys(
+    id: string,
+    { name, email, password }: IEmployeesRequest
+  ): Promise<Employees[]> {
     const employeeRepository = AppDataSource.getRepository(Employees);
+    const hotelRepository = AppDataSource.getRepository(Hotel);
 
     const findUser = await employeeRepository.findOne({
       where: {
@@ -19,7 +20,17 @@ class EmployeesServices {
     });
 
     if (findUser) {
-      throw new AppError(500, "User already registered!");
+      throw new AppError(400, "User already registered!");
+    }
+
+    const hotel = await hotelRepository.findOne({
+      where: {
+        id: id,
+      },
+    });
+
+    if (!hotel) {
+      throw new AppError(404, "Hotel not found");
     }
 
     const hashedPassword = await hash(password, 10);
@@ -30,6 +41,8 @@ class EmployeesServices {
       password: hashedPassword,
     });
 
+    employee.hotel = hotel;
+
     await employeeRepository.save(employee);
 
     const employeeResponse = await employeeRepository
@@ -38,11 +51,28 @@ class EmployeesServices {
       .select("employee.id")
       .addSelect("employee.name")
       .addSelect("employee.email")
+      .addSelect("employee.hotel")
       .addSelect("employee.isAdm")
       .addSelect("employee.isActive")
       .getMany();
 
     return employeeResponse;
+  }
+
+  static async listEmployees(id: string): Promise<Employees[]> {
+    const hotelRepository = AppDataSource.getRepository(Hotel);
+
+    const findHotel = await hotelRepository.findOne({
+      where: {
+        id: id,
+      },
+    });
+
+    if (!findHotel) {
+      throw new AppError(404, "Hotel not found!");
+    }
+
+    return findHotel.employees;
   }
 }
 export default EmployeesServices;
