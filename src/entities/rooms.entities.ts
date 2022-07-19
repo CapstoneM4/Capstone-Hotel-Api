@@ -1,12 +1,4 @@
-import {
-  Entity,
-  Column,
-  PrimaryColumn,
-  OneToMany,
-  OneToOne,
-  JoinColumn,
-  ManyToOne,
-} from "typeorm";
+import { Entity, Column, PrimaryColumn, OneToMany, ManyToOne } from "typeorm";
 import { Booking } from "./booking.entities";
 import { v4 as uuid } from "uuid";
 import { Hotel } from "./systemHotel.entities";
@@ -17,7 +9,7 @@ export class Rooms {
   @PrimaryColumn("uuid")
   readonly id: string;
 
-  @Column({ type: "integer", unique: true })
+  @Column({ type: "integer" })
   roomNumber: number;
 
   @Column({ type: "integer" })
