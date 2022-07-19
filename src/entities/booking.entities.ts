@@ -37,7 +37,7 @@ export class Booking {
   @ManyToOne(() => Hotel)
   hotel: Hotel;
 
-  @ManyToOne(() => Clients, { eager: true })
+  @ManyToOne(() => Clients, (client) => client.booking)
   client: Clients;
 
   @ManyToOne(() => Rooms, { eager: true })
