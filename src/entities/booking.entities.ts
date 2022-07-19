@@ -4,8 +4,6 @@ import {
   PrimaryColumn,
   CreateDateColumn,
   OneToMany,
-  OneToOne,
-  JoinColumn,
   ManyToOne,
 } from "typeorm";
 import { v4 as uuid } from "uuid";
@@ -34,7 +32,7 @@ export class Booking {
   @OneToMany(() => BookingService, (bookingService) => bookingService.booking)
   bookingService: BookingService[];
 
-  @ManyToOne(() => Hotel)
+  @ManyToOne(() => Hotel, (hotel) => hotel.booking)
   hotel: Hotel;
 
   @ManyToOne(() => Clients, (clients) => clients.booking, { eager: true })
