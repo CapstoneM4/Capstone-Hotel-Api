@@ -18,7 +18,7 @@ routesADM.get(
 //Alterações de dados do hotel no banco de dados
 routesADM.patch("/:id" /*Controller de alteração de dados do hotel*/);
 routesADM.delete("/:id" /*Controller de deleção do hotel*/);
-routesADM.get("/:idH" /*Controller de listagem do hotel*/);
+routesADM.get("/:id" /*Controller de listagem do hotel*/);
 
 //Criação e listagem de cargos
 routesADM.post("/:id/jobtitles" /*Controller de criação de cargos do hotel*/);
@@ -61,10 +61,7 @@ routesADM.delete(
 );
 
 //Criação de funcionários
-routesADM.post(
-  "/:idH/employees",
-  EmployeesControllers.createEmployees /*faltando id do hotel ex: "/:id/employees" */
-);
+routesADM.post("/:idH/employees", EmployeesControllers.createEmployees);
 routesADM.get(
   "/:idH/employees",
   EmployeesControllers.listEmployees /*Controller de listagem dos funcionários do hotel*/
