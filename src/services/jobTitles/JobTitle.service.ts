@@ -1,7 +1,7 @@
 import AppDataSource from "../../data-source";
 import { JobTitles } from "../../entities/jobTitles.entities";
 import { AppError } from "../../errors/AppError";
-import { IJobTitleCreate, IJobTitleUpdate } from "../../interfaces/employee";
+import { IJobTitleCreate, IJobTitleUpdate, IJobTitleUpdateAssign } from "../../interfaces/employee";
 
 class JobTitleService {
   static jobTitleRespository = AppDataSource.getRepository(JobTitles);
@@ -57,7 +57,11 @@ class JobTitleService {
       throw new AppError(404, "Job Title not found");
     }
 
-    Object.assign(jobTitle, { name, description });
+    name
+    ? (jobTitle!.name = name)
+    : description
+    ? (jobTitle!.description = description)
+    : name
 
     await this.jobTitleRespository.update(jobTitle.id, jobTitle);
 
