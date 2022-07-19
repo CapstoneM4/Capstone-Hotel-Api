@@ -10,18 +10,9 @@ class ClientsHotelServices {
 
   //LIST
   static async ClientsList() {
-    /*     const users = await this.ClientsRepository.find();
-    const result = users.map((user) => {
-      const books =   AppDataSource.getRepository(Booking);.createQueryBuilder("Booking")
-    .where("user.id = :id", { id: 1 })
-    .getOne()
-    });
+    const users = await this.ClientsRepository.find();
 
-    return users; */
-    const user = await this.ClientsRepository.createQueryBuilder("Clients")
-      .innerJoinAndSelect("Clients.booking", "Booking")
-      .getMany();
-    return user;
+    return users;
   }
 
   //LIST FILTER ID
@@ -47,10 +38,12 @@ class ClientsHotelServices {
     cell,
     isAlocated,
   }: IClientsCreate) {
-    const clientsAlreadyExistsId = (await this.ClientsList()).find(
+    const ClientsList = await this.ClientsRepository.find();
+
+    const clientsAlreadyExistsId = ClientsList.find(
       (user) => user.personalId === personalId
     );
-    const clientsAlreadyExistsEmail = (await this.ClientsList()).find(
+    const clientsAlreadyExistsEmail = ClientsList.find(
       (user) => user.email === email
     );
 
