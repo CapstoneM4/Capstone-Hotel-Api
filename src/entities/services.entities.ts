@@ -6,7 +6,7 @@ import {
   JoinTable,
 } from "typeorm";
 
-import { BookingService } from "./bookingServices.entities";
+import { BookingService } from "./bookingServices";
 
 @Entity("Services")
 export class Services {

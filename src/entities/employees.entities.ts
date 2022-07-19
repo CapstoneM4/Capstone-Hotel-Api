@@ -6,7 +6,7 @@ import {
   ManyToMany,
   JoinTable,
 } from "typeorm";
-import { BookingService } from "./bookingServices.entities";
+import { BookingService } from "./bookingServices";
 import { Hotel } from "./systemHotel.entities";
 import { JobTitles } from "./jobTitles.entities";
 
