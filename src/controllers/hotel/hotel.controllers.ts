@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import HotelServices from "../../services/hotel/hotel.service";
-import RoomsServices from "../../services/rooms/rooms.service";
 
 class HotelControllers {
   static async createHotel(req: Request, res: Response) {
