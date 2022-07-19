@@ -8,8 +8,17 @@ import {
   IBookingUpdate,
 } from "../../interfaces/booking";
 import { Equal } from "typeorm";
+import { Hotel } from "../../entities/systemHotel.entities";
+import { Clients } from "../../entities/clients.entities";
+import { Rooms } from "../../entities/rooms.entities";
+import { AppError } from "../../errors/AppError";
 
 class BookingService {
+  static bookingRepository = AppDataSource.getRepository(Booking);
+  static hotelRepository = AppDataSource.getRepository(Hotel);
+  static clientRepository = AppDataSource.getRepository(Clients);
+  static roomRepository = AppDataSource.getRepository(Rooms);
+
   static async createBooking({
     checkinDate,
     checkoutDate,
@@ -19,7 +28,26 @@ class BookingService {
     idClient,
     idRoom,
   }: IBookingCreate) {
-    const bookingRepository = AppDataSource.getRepository(Booking);
+    const hotelList = await this.hotelRepository.find();
+    const hotelExists = hotelList.find((hotel) => hotel.id === idHotel);
+
+    const clientList = await this.clientRepository.find();
+    const clientExists = clientList.find((client) => client.id === idClient);
+
+    const roomtList = await this.roomRepository.find();
+    const roomExists = roomtList.find((room) => room.id === idRoom);
+
+    if (!hotelExists) {
+      throw new AppError(404, "Hotel Doesn't Exists");
+    }
+
+    if (!clientExists) {
+      throw new AppError(404, "Client Doesn't Exists");
+    }
+
+    if (!roomExists) {
+      throw new AppError(404, "Room Doesn't Exists");
+    }
 
     const newBooking = new Booking();
     newBooking.checkinDate = new Date(checkinDate);
@@ -30,18 +58,27 @@ class BookingService {
     newBooking.client = idClient;
     newBooking.room = idRoom;
 
-    bookingRepository.create(newBooking);
-    await bookingRepository.save(newBooking);
+    this.bookingRepository.create(newBooking);
+    await this.bookingRepository.save(newBooking);
 
     return newBooking;
   }
 
   static async listBookings({ idHotel }: IListBookings) {
-    const bookingRepository = AppDataSource.getRepository(Booking);
+    const hotelList = await this.hotelRepository.find();
+    const hotelExists = hotelList.find((hotel) => hotel.id === idHotel);
 
-    const hotelBookings = await bookingRepository.findBy({
+    if (!hotelExists) {
+      throw new AppError(404, "Hotel Doesn't Exists");
+    }
+
+    const hotelBookings = await this.bookingRepository.findBy({
       hotel: Equal(idHotel),
     });
+
+    if (hotelBookings.length < 1) {
+      throw new AppError(404, "Couldn't find any room associate to this hotel");
+    }
 
     return hotelBookings;
   }
@@ -56,61 +93,85 @@ class BookingService {
     idClient,
     idRoom,
   }: IBookingUpdate): Promise<Booking> {
-    const bookingRepository = AppDataSource.getRepository(Booking);
+    const hotelList = await this.hotelRepository.find();
+    const hotelExists = hotelList.find((hotel) => hotel.id === idHotel);
 
-    const bookings = await bookingRepository.find();
+    const clientList = await this.clientRepository.find();
+    const clientExists = clientList.find((client) => client.id === idClient);
 
+    const roomtList = await this.roomRepository.find();
+    const roomExists = roomtList.find((room) => room.id === idRoom);
+
+    const bookings = await this.bookingRepository.find();
     const bookingToUpdate = bookings.find(
       (booking) => booking.id === idBooking
     );
 
-    if (!bookingToUpdate) {
-      throw new Error("Account not found");
+    if (!hotelExists) {
+      throw new AppError(404, "Hotel Doesn't Exists");
     }
 
-    // if (!bookingToUpdate) {
-    //   throw new AppError(404, "Account not found");
-    // }
+    if (!clientExists) {
+      throw new AppError(404, "Client Doesn't Exists");
+    }
 
-    checkinDate
-      ? (bookingToUpdate!.checkinDate = checkinDate)
-      : checkoutDate
-      ? (bookingToUpdate!.checkoutDate = checkoutDate)
-      : isPaid != undefined
-      ? (bookingToUpdate!.isPaid = isPaid)
-      : qtyClients
-      ? (bookingToUpdate!.qtyClients = qtyClients)
-      : idHotel
-      ? (bookingToUpdate!.hotel = idHotel)
-      : idClient
-      ? (bookingToUpdate!.client = idClient)
-      : idRoom
-      ? (bookingToUpdate!.room = idRoom)
-      : checkinDate;
+    if (!roomExists) {
+      throw new AppError(404, "Room Doesn't Exists");
+    }
 
-    await bookingRepository.update(bookingToUpdate!.id, bookingToUpdate);
+    if (!bookingToUpdate) {
+      throw new AppError(404, "Couldn't find booking");
+    }
+
+    if (checkinDate) {
+      bookingToUpdate!.checkinDate = new Date(checkinDate);
+    }
+    if (checkoutDate) {
+      bookingToUpdate!.checkoutDate = new Date(checkoutDate);
+    }
+    if (isPaid != undefined) {
+      bookingToUpdate!.isPaid = isPaid;
+    }
+    if (qtyClients) {
+      bookingToUpdate!.qtyClients = qtyClients;
+    }
+    if (idHotel) {
+      bookingToUpdate!.hotel = idHotel;
+    }
+    if (idClient) {
+      bookingToUpdate!.client = idClient;
+    }
+    if (idRoom) {
+      bookingToUpdate!.room = idRoom;
+    }
+
+    await this.bookingRepository.update(bookingToUpdate!.id, bookingToUpdate);
 
     return bookingToUpdate;
   }
 
   static async deleteBooking({ idBooking }: IDeleteBooking) {
-    const bookingRepository = AppDataSource.getRepository(Booking);
-
-    const bookings = await bookingRepository.find();
+    const bookings = await this.bookingRepository.find();
 
     const deleteBooking = bookings.find((booking) => booking.id === idBooking);
 
-    await bookingRepository.delete(deleteBooking!.id);
+    if (!deleteBooking) {
+      throw new AppError(404, "Couldn't find booking");
+    }
+
+    await this.bookingRepository.delete(deleteBooking!.id);
 
     return true;
   }
 
   static async listOneBooking({ idBooking }: IGetBooking) {
-    const userRepository = AppDataSource.getRepository(Booking);
-
-    const bookings = await userRepository.find();
+    const bookings = await this.bookingRepository.find();
 
     const booking = bookings.find((booking) => booking.id === idBooking);
+
+    if (!booking) {
+      throw new AppError(404, "Couldn't find booking");
+    }
 
     return booking;
   }

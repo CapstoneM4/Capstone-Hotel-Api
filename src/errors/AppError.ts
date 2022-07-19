@@ -1,6 +1,7 @@
 export class AppError extends Error {
-  statusCode: number;
-  constructor(message: string, statusCode: number = 400) {
+  statusCode;
+
+  constructor(statusCode: number, message: string) {
     super();
     this.statusCode = statusCode;
     this.message = message;
