@@ -34,10 +34,10 @@ export class Booking {
   @OneToMany(() => BookingService, (bookingService) => bookingService.booking)
   bookingService: BookingService[];
 
-  @ManyToOne(() => Hotel)
+  @ManyToOne(() => Hotel, (hotel) => hotel.booking)
   hotel: Hotel;
 
-  @ManyToOne(() => Clients, (clients) => clients.booking, { eager: true })
+  @ManyToOne(() => Clients, (clients) => clients.booking)
   client: Clients;
 
   @ManyToOne(() => Rooms, (rooms) => rooms.booking, { eager: true })
