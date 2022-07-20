@@ -3,6 +3,7 @@ import AppDataSource from "../../data-source";
 import request from "supertest";
 import app from "../../app";
 import { IHotelSystemCreate } from "../../interfaces/hotel";
+import { IEmployeeCreate } from "../../interfaces/employee";
 
 describe("Testing hotel routes", () => {
   let connection: DataSource;
@@ -14,6 +15,7 @@ describe("Testing hotel routes", () => {
     address: "Rua do Joãozinho, 3",
   };
   let responsePOST: any;
+
   beforeAll(async () => {
     await AppDataSource.initialize()
       .then((res) => (connection = res))
@@ -87,5 +89,130 @@ describe("Testing hotel routes", () => {
     );
     expect(responseDelete.status).toBe(200);
     expect(responseDelete.body).toHaveProperty("message");
+  });
+
+  test("Should be able to create an employee", async () => {
+    const newEmployee: IEmployeeCreate = {
+      name: "Joaquim",
+      email: "joaquimdasilva@gmail.com",
+      password: "password",
+      idHotel: responsePOST.body.id,
+      idJobTitle: 1,
+    };
+    const responsePost = await request(app).post(
+      `/hotel/${responsePOST.body.id}/employees`
+    );
+
+    expect(responsePost.status).toBe(201);
+    expect(responsePost.body).toHaveProperty("id");
+    expect(responsePost.body).toHaveProperty("name");
+    expect(responsePost.body).toHaveProperty("email");
+    expect(responsePost.body).toHaveProperty("password");
+    expect(responsePost.body).toHaveProperty("idHotel");
+    expect(responsePost.body).toHaveProperty("idJobTitle");
+  });
+
+  test("Should be able to return a list of employees", async () => {
+    const response = await request(app).get(
+      `/hotel/${responsePOST.body.id}/employees`
+    );
+
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty("map");
+  });
+
+  test("Should be able to create a room", async () => {
+    const newRoom = {
+      roomNumber: 101,
+      floorNumber: 1,
+      price: 200,
+      isClean: true,
+      isAvailable: true,
+    };
+
+    const response = await request(app)
+      .post(`/hotel/${responsePOST.body.id}/rooms`)
+      .send(newRoom);
+
+    expect(response.status).toBe(201);
+    expect(response.body).toHaveProperty("id");
+    expect(response.body).toHaveProperty("roomNumber");
+    expect(response.body).toHaveProperty("floorNumber");
+    expect(response.body).toHaveProperty("price");
+    expect(response.body).toHaveProperty("isClean");
+    expect(response.body).toHaveProperty("isAvailable");
+  });
+
+  test("Should be able to return a list of rooms", async () => {
+    const newRoom = {
+      roomNumber: 101,
+      floorNumber: 1,
+      price: 200,
+      isClean: true,
+      isAvailable: true,
+    };
+
+    const responsePost = await request(app)
+      .post(`/hotel/${responsePOST.body.id}/rooms`)
+      .send(newRoom);
+    const response = await request(app).get(
+      `/hotel/${responsePOST.body.id}/rooms`
+    );
+
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty("map");
+  });
+
+  test("Should be able to update a room", async () => {
+    const newRoom = {
+      roomNumber: 101,
+      floorNumber: 1,
+      price: 200,
+      isClean: true,
+      isAvailable: true,
+    };
+
+    const newPrice = { price: 150 };
+
+    const responsePost = await request(app)
+      .post(`/hotel/${responsePOST.body.id}/rooms`)
+      .send(newRoom);
+
+    const response = await request(app)
+      .patch(`/hotel/${responsePOST.body.id}/rooms/${responsePost.body.id}`)
+      .send(newPrice);
+
+    const responseGet = await request(app).get(
+      `/hotel/${responsePOST.body.id}/rooms/${responsePost.body.id}`
+    );
+    expect(response.status).toBe(200);
+    expect(responseGet).toEqual(
+      expect.objectContaining({
+        id: responsePost.body.id,
+        name: responseGet.body.name,
+        cnpj: responseGet.body.cnpj,
+        address: responseGet.body.address,
+        qtyBedRooms: responseGet.body.qtyBedRooms,
+      })
+    );
+  });
+
+  test("Should be able to delete a room", async () => {
+    const newRoom = {
+      roomNumber: 101,
+      floorNumber: 1,
+      price: 200,
+      isClean: true,
+      isAvailable: true,
+    };
+    const responsePost = await request(app)
+      .post(`/hotel/${responsePOST.body.id}/rooms`)
+      .send(newRoom);
+
+    const response = await request(app).delete(
+      `/hotel/${responsePOST.body.id}/rooms/${responsePost.body.id}`
+    );
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty("message");
   });
 });

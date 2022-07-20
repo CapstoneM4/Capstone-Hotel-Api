@@ -2,7 +2,6 @@ import { Router } from "express";
 import HotelController from "../../controllers/hotel/hotel.controller";
 import JobTitleController from "../../controllers/jobTitle/JobTitle.controller";
 
-
 const routesADM = Router();
 
 // Listagem e Criação de hotéis no banco de dados
