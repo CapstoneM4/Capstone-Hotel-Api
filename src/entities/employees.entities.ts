@@ -30,18 +30,13 @@ export class Employees {
   @Column({ default: true })
   isActive: boolean;
 
-  @ManyToMany(
-    () => BookingService,
-    (bookingService) => bookingService.employees
-  )
+  @ManyToMany(() => BookingService, (bookingService) => bookingService.employee)
   @JoinTable()
   bookingService: BookingService[];
 
-  @ManyToOne(() => Hotel, (hotel) => hotel.employees)
+  @ManyToOne(() => Hotel, (hotel) => hotel.booking)
   hotel: Hotel;
 
-  @ManyToOne(() => JobTitles, (jobTitles) => jobTitles.employees, {
-    eager: true,
-  })
+  @ManyToOne(() => JobTitles, { eager: true, cascade: true })
   jobTitles: JobTitles;
 }

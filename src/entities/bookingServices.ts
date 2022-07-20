@@ -17,14 +17,14 @@ export class BookingService {
 
   @ManyToMany(() => Services, (services) => services.bookingService)
   @JoinTable()
-  services: Services[];
+  service: number;
 
   @ManyToMany(() => Employees, (employees) => employees.bookingService)
   @JoinTable()
-  employees: Employees[];
+  employee: string;
 
   @ManyToOne(() => Booking, (booking) => booking.bookingService)
-  booking: Booking;
+  booking: string;
 
   constructor() {
     if (!this.id) {

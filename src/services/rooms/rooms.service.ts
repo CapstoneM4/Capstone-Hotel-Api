@@ -53,102 +53,72 @@ class RoomsServices {
     return findHotel.rooms;
   }
 
-  static async updateRoomService(
-    hotelId: string,
-    roomId: string,
-    { price, isClean, isAvailable }: IRommsupdate
-  ): Promise<boolean> {
-    const hotelRepository = AppDataSource.getRepository(Hotel);
+  static async listRoomByIdService(id: string) {
     const roomsRepository = AppDataSource.getRepository(Rooms);
 
-    console.log(hotelId);
-    console.log(roomId);
-
-    const hotel = await hotelRepository.findOne({
+    const room = await roomsRepository.findOne({
       where: {
-        id: hotelId,
+        id: id,
       },
     });
 
-    if (!hotel) {
-      throw new AppError(404, "Hotel not found!");
+    if (!room) {
+      throw new AppError(404, "Room not found!");
     }
 
-    const findHotelId = hotel.rooms.map((item) => {
-      if (roomId === item.id) {
-        return true;
-      }
+    return room;
+  }
+
+  static async updateRoomService(
+    id: string,
+    { price, isClean, isAvailable }: IRommsupdate
+  ): Promise<boolean> {
+    const roomsRepository = AppDataSource.getRepository(Rooms);
+
+    const room = await roomsRepository.findOne({
+      where: {
+        id: id,
+      },
     });
 
-    if (!!findHotelId) {
-      if (price) {
-        roomsRepository
-          .createQueryBuilder("room")
-          .update(Rooms)
-          .set({
-            price: price,
-          })
-          .where("id = :id", { id: roomId })
-          .execute();
-      }
-      if (isClean) {
-        await roomsRepository
-          .createQueryBuilder("room")
-          .update(Rooms)
-          .set({
-            isClean: isClean,
-          })
-          .where("id = :id", { id: roomId })
-          .execute();
-      }
-      if (isAvailable) {
-        await roomsRepository
-          .createQueryBuilder("room")
-          .update(Rooms)
-          .set({
-            isAvailable: isAvailable,
-          })
-          .where("id = :id", { id: roomId })
-          .execute();
-      }
+    if (!room) {
+      throw new AppError(404, "Hotel not found!");
+    } else if (room.price == price) {
+      throw new AppError(400, `Room price already is ${price}!`);
+    } else if (room.isClean === isClean) {
+      throw new AppError(404, `Room already has ${isClean} status!`);
+    } else if (room.isAvailable === isAvailable) {
+      throw new AppError(404, `Room already has ${isAvailable} status!`);
     }
+
+    isClean != undefined ? (room.isClean = isClean) : isClean;
+    isAvailable != undefined ? (room.isAvailable = isAvailable) : isAvailable;
+    price ? (room.price = price) : price;
+
+    await roomsRepository.update(room.id, room);
 
     return true;
   }
 
-  static async deleteRoomService(
-    hotelId: string,
-    roomId: string
-  ): Promise<boolean> {
-    const hotelRepository = AppDataSource.getRepository(Hotel);
+  static async deleteRoomService(id: string): Promise<boolean> {
     const roomsRepository = AppDataSource.getRepository(Rooms);
 
-    const hotel = await hotelRepository.findOne({
+    const room = await roomsRepository.findOne({
       where: {
-        id: hotelId,
+        id: id,
       },
     });
 
-    if (!hotel) {
-      throw new AppError(404, "Hotel not found!");
+    if (!room) {
+      throw new AppError(404, "Room not found!");
     }
 
-    let verify;
-
-    const findHotelRoomsId = hotel.rooms.map((item) => {
-      if (roomId === item.id) {
-        verify = true;
-      }
-    });
-
-    if (verify === true) {
-      await roomsRepository
-        .createQueryBuilder()
-        .delete()
-        .from(Rooms)
-        .where("id = :id", { id: roomId })
-        .execute();
-    }
+    await roomsRepository
+      .createQueryBuilder()
+      .delete()
+      .from(Rooms)
+      .where("id = :id", { id: id })
+      .execute();
 
     return true;
   }

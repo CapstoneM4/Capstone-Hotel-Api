@@ -22,7 +22,7 @@ export class Clients {
   @Column()
   isAlocated: boolean;
 
-  @OneToMany(() => Booking, (booking) => booking.client)
+  @OneToMany(() => Booking, (booking) => booking.client, { eager: true })
   booking: Booking[];
 
   constructor() {

@@ -26,11 +26,17 @@ class RoomsControllers {
     return res.status(200).json(hotelRooms);
   }
 
+  static async listRoomsByid(req: Request, res: Response) {
+    const { id } = req.params;
+    const room = await RoomsServices.listRoomByIdService(id);
+    return res.status(200).json(room);
+  }
+
   static async updateRoom(req: Request, res: Response) {
-    const { hotelId, roomId } = req.params;
+    const { id } = req.params;
     const { price, isClean, isAvailable } = req.body;
 
-    const updated = await RoomsServices.updateRoomService(hotelId, roomId, {
+    const updated = await RoomsServices.updateRoomService(id, {
       price,
       isClean,
       isAvailable,
@@ -42,9 +48,9 @@ class RoomsControllers {
   }
 
   static async deleteRoom(req: Request, res: Response) {
-    const { hotelId, roomId } = req.params;
+    const { id } = req.params;
 
-    const deleted = await RoomsServices.deleteRoomService(hotelId, roomId);
+    const deleted = await RoomsServices.deleteRoomService(id);
 
     return res.status(200).json({
       message: "Deleted with success!",
