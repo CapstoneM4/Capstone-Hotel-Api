@@ -47,8 +47,20 @@ class ClientsHotelServices {
 
     const booking = await this.BookingRepository.find();
 
+    const clientsRepository = AppDataSource.getRepository(Clients);
+
+    const cl = await clientsRepository.findOne({
+      where: {
+        cell: cell,
+      },
+    });
+
     if (clientsAlreadyExistsId || clientsAlreadyExistsEmail) {
       throw new AppError(400, "Client already registered");
+    }
+
+    if (cl) {
+      throw new AppError(400, "Cell alredy registered");
     }
 
     const clients = new Clients();

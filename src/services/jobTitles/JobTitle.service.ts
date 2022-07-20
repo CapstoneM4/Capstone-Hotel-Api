@@ -1,7 +1,12 @@
 import AppDataSource from "../../data-source";
 import { JobTitles } from "../../entities/jobTitles.entities";
 import { AppError } from "../../errors/AppError";
-import { IJobTitleCreate, IJobTitleUpdate, IJobTitleUpdateAssign } from "../../interfaces/employee";
+import {
+  IJobTitleCreate,
+  IJobTitleUpdate,
+  IJobTitleUpdateAssign,
+} from "../../interfaces/employee";
+import { Employees } from "../../entities/employees.entities";
 
 class JobTitleService {
   static jobTitleRespository = AppDataSource.getRepository(JobTitles);
@@ -10,8 +15,19 @@ class JobTitleService {
   }
 
   // CREATE
-  static async CreateJobTitle({ name, description }: IJobTitleCreate):Promise<JobTitles> {
-    // const jobTitleRespository = await this.jobTitle();
+  static async CreateJobTitle(
+    id: string,
+    { name, description }: IJobTitleCreate
+  ): Promise<JobTitles> {
+    const employeeRepository = AppDataSource.getRepository(Employees);
+
+    const employee = await employeeRepository.findOneBy({
+      id: id,
+    });
+
+    if (!employee) {
+      throw new AppError(404, "Employee not found!");
+    }
 
     const jobTitleAlreadyExists = await this.jobTitleRespository.findOneBy({
       name: name,
@@ -21,47 +37,51 @@ class JobTitleService {
       throw new AppError(404, "JobTitle already exists on this hotel");
     }
 
-    const jobTitle = new JobTitles();
-    jobTitle.name = name;
-    jobTitle.description = description;
+    const jobTitleRespository = AppDataSource.getRepository(JobTitles);
 
-    this.jobTitleRespository.create(jobTitle);
-    this.jobTitleRespository.save(jobTitle);
+    const job = jobTitleRespository.create({
+      name,
+      description,
+      employees: [employee],
+    });
 
-    return jobTitle;
+    await this.jobTitleRespository.save(job);
+
+    return job;
   }
 
   // LIST ALL
-  static async ListJobTitles():Promise<JobTitles[]> {
+  static async ListJobTitles(): Promise<JobTitles[]> {
     const jobTitles = await this.jobTitle();
 
     return jobTitles;
   }
 
   // LIST ONE
-  static async ListOneJobTitle(id: string):Promise<JobTitles> {
-    const jobTitle = await this.jobTitleRespository.findOneBy({ id: id });
-
-    if(!jobTitle) {
-      throw new AppError(404, "Job Title not found")
-    }
-
-    return jobTitle;
-  }
-
-  // UPDATE
-  static async UpdateJobTitle({ id, name, description }: IJobTitleUpdate):Promise<JobTitles> {
+  static async ListOneJobTitle(id: string): Promise<JobTitles> {
     const jobTitle = await this.jobTitleRespository.findOneBy({ id: id });
 
     if (!jobTitle) {
       throw new AppError(404, "Job Title not found");
     }
 
-    name
-    ? (jobTitle!.name = name)
-    : description
-    ? (jobTitle!.description = description)
-    : name
+    return jobTitle;
+  }
+
+  // UPDATE
+  static async UpdateJobTitle({
+    id,
+    name,
+    description,
+  }: IJobTitleUpdate): Promise<JobTitles> {
+    const jobTitle = await this.jobTitleRespository.findOneBy({ id: id });
+
+    if (!jobTitle) {
+      throw new AppError(404, "Job Title not found");
+    }
+
+    name ? (jobTitle!.name = name) : name;
+    description ? (jobTitle!.description = description) : description;
 
     await this.jobTitleRespository.update(jobTitle.id, jobTitle);
 
@@ -69,10 +89,8 @@ class JobTitleService {
   }
 
   // DELETE
-  static async DeleteJobTitle(id: string):Promise<JobTitles> {
+  static async DeleteJobTitle(id: string): Promise<JobTitles> {
     const jobTitle = await this.jobTitleRespository.findOneBy({ id: id });
-
-    console.log(jobTitle);
 
     if (!jobTitle) {
       throw new AppError(404, "Job Title not found");

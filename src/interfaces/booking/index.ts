@@ -1,6 +1,4 @@
 export interface IBookingCreate {
-  checkinDate: Date;
-  checkoutDate: Date;
   isPaid: boolean;
   qtyClients: number;
   idHotel: string;

@@ -13,7 +13,6 @@ export interface IEmployee extends IEmployeeCreate {
 }
 
 export interface IEmployeeUpdate {
-  id: string;
   name?: string;
   email?: string;
   password?: string;
@@ -38,7 +37,13 @@ export interface IJobTitleUpdateAssign {
 }
 
 export interface IJobTitleUpdate {
-  id: string
+  id: string;
   name?: string;
   description?: string;
+}
+
+export interface IEmployeesRequest {
+  name: string;
+  email: string;
+  password: string;
 }

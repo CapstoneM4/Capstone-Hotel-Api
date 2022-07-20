@@ -30,8 +30,6 @@ class BookingServiceClass {
   static bookingServiceRepository = AppDataSource.getRepository(BookingService);
 
   static async createBooking({
-    checkinDate,
-    checkoutDate,
     isPaid,
     qtyClients,
     idHotel,
@@ -60,8 +58,8 @@ class BookingServiceClass {
     }
 
     const newBooking = new Booking();
-    newBooking.checkinDate = new Date(checkinDate);
-    newBooking.checkoutDate = new Date(checkoutDate);
+    newBooking.checkinDate = new Date();
+    newBooking.checkoutDate = new Date();
     newBooking.isPaid = isPaid;
     newBooking.qtyClients = qtyClients;
     newBooking.hotel = idHotel;
@@ -236,5 +234,4 @@ class BookingServiceClass {
     return bookingServicesAll;
   }
 }
-
 export default BookingServiceClass;
