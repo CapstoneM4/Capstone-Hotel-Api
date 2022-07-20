@@ -25,7 +25,7 @@ class HotelController {
       id,
     });
 
-    return res.status(201).send(updatedHotel);
+    return res.status(200).json({ message: updatedHotel });
   }
 
   static async delete(req: Request, res: Response) {
@@ -37,7 +37,7 @@ class HotelController {
   static async listHotel(req: Request, res: Response) {
     const listDb = await HotelService.readList();
     console.log(listDb);
-    return res.status(201).json(listDb);
+    return res.status(200).json(listDb);
   }
 
   static async infoHotel(req: Request, res: Response) {
