@@ -91,13 +91,9 @@ class RoomsServices {
       throw new AppError(404, `Room already has ${isAvailable} status!`);
     }
 
-    isClean != undefined
-      ? (room.isClean = isClean)
-      : isAvailable != undefined
-      ? (room.isAvailable = isAvailable)
-      : price
-      ? (room.price = price)
-      : isClean;
+    isClean != undefined ? (room.isClean = isClean) : isClean;
+    isAvailable != undefined ? (room.isAvailable = isAvailable) : isAvailable;
+    price ? (room.price = price) : price;
 
     await roomsRepository.update(room.id, room);
 

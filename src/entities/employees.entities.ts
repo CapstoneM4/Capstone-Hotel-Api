@@ -37,7 +37,7 @@ export class Employees {
   @JoinTable()
   bookingService: BookingService[];
 
-  @ManyToOne(() => Hotel, (hotel) => hotel.employees)
+  @ManyToOne(() => Hotel, (hotel) => hotel.employees, { onDelete: "CASCADE" })
   hotel: Hotel;
 
   @ManyToOne(() => JobTitles, (jobTitles) => jobTitles.employees, {
