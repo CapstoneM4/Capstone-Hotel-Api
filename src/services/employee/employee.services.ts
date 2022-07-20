@@ -7,17 +7,27 @@ import {
   IGetBooking,
   IBookingUpdate,
 } from "../../interfaces/booking";
+import {
+  IBookingServiceCreate,
+  IGetBookingServices,
+} from "../../interfaces/bookingServices";
 import { Equal } from "typeorm";
 import { Hotel } from "../../entities/systemHotel.entities";
 import { Clients } from "../../entities/clients.entities";
 import { Rooms } from "../../entities/rooms.entities";
 import { AppError } from "../../errors/AppError";
+import { Services } from "../../entities/services.entities";
+import { Employees } from "../../entities/employees.entities";
+import { BookingService } from "../../entities/bookingServices.entities";
 
-class BookingService {
+class BookingServiceClass {
   static bookingRepository = AppDataSource.getRepository(Booking);
   static hotelRepository = AppDataSource.getRepository(Hotel);
   static clientRepository = AppDataSource.getRepository(Clients);
   static roomRepository = AppDataSource.getRepository(Rooms);
+  static servicesRepository = AppDataSource.getRepository(Services);
+  static employeeRepository = AppDataSource.getRepository(Employees);
+  static bookingServiceRepository = AppDataSource.getRepository(BookingService);
 
   static async createBooking({
     checkinDate,
@@ -175,6 +185,56 @@ class BookingService {
 
     return booking;
   }
+
+  static async createBookingService({
+    idService,
+    idEmployee,
+    idBooking,
+  }: IBookingServiceCreate) {
+    const bookings = await this.bookingRepository.find();
+    const services = await this.servicesRepository.find();
+    const employees = await this.employeeRepository.find();
+
+    const booking = bookings.find((booking) => booking.id === idBooking);
+    const service = services.find((service) => service.id === idService);
+    const employee = employees.find((employee) => employee.id === idEmployee);
+
+    if (!booking) {
+      throw new AppError(404, "Couldn't find booking");
+    }
+
+    if (!service) {
+      throw new AppError(404, "Couldn't find service");
+    }
+
+    if (!employee) {
+      throw new AppError(404, "Couldn't find employee");
+    }
+
+    const newBookingService = new BookingService();
+    newBookingService.service = idService;
+    newBookingService.employee = idEmployee;
+    newBookingService.booking = idBooking;
+
+    this.bookingServiceRepository.create(newBookingService);
+    await this.bookingServiceRepository.save(newBookingService);
+
+    return newBookingService;
+  }
+
+  static async listBookingServices({ idBooking }: IGetBookingServices) {
+    const bookingServicesAll = await this.bookingServiceRepository.find();
+
+    const bookingServices = bookingServicesAll.filter(
+      (bookingService) => bookingService.booking == idBooking
+    );
+
+    if (!bookingServices) {
+      throw new AppError(404, "Couldn't find any room service to this booking");
+    }
+
+    return bookingServicesAll;
+  }
 }
 
-export default BookingService;
+export default BookingServiceClass;
