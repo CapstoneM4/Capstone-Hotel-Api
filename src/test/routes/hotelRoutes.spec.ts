@@ -65,4 +65,8 @@ describe("Testing hotel routes", () => {
       })
     );
   });
+
+  test("Should be able to delete a hotel", async () => {});
+
+  test("Should be able to return a registered hotel", async () => {});
 });

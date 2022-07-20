@@ -25,4 +25,4 @@ export const AppDataSource =
         migrations: ["src/migrations/*.ts"],
       });
 
-// export default AppDataSource;
+export default AppDataSource;

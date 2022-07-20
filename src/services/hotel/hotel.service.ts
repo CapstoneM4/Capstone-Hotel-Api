@@ -1,4 +1,4 @@
-import { AppDataSource } from "../../data-source";
+import AppDataSource from "../../data-source";
 import { Hotel } from "../../entities/systemHotel.entities";
 import { AppError } from "../../errors/AppError";
 import {
@@ -30,14 +30,13 @@ class HotelService {
 
     hotelRepository.create(hotel);
     await hotelRepository.save(hotel);
-    console.log(hotel);
     return hotel;
   }
   //list All
   static async readList(): Promise<Hotel[]> {
     const hotelRepository = AppDataSource.getRepository(Hotel);
     const hotelList = await hotelRepository.find();
-
+    console.log(hotelList);
     return hotelList;
   }
   //update
@@ -50,19 +49,13 @@ class HotelService {
   }: IHotelUpdate): Promise<Hotel> {
     const hotelRepository = AppDataSource.getRepository(Hotel);
     const hotel = await hotelRepository.findOneBy({ id: id });
-
     if (!hotel) {
       throw new AppError(400, "Hotel not Found!");
     }
 
     Object.assign(hotel, { name, cnpj, address, qtyBedRooms });
 
-    console.log(hotel);
-    await hotelRepository.update(hotel.id, hotel);
-    console.log(hotel);
-    const updatedHotel = await hotelRepository.findOneBy({ id: id });
-    console.log(updatedHotel);
-    return updatedHotel!;
+    return hotel;
   }
   //delete
   static async delete({ id }: IHotelDelete): Promise<void> {
