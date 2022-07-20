@@ -55,7 +55,6 @@ describe("Testing hotel routes", () => {
     );
 
     expect(response.status).toBe(200);
-    expect(response.body).toHaveProperty("message");
     expect(responseGet.body).toEqual(
       expect.objectContaining({
         id: responsePOST.body.id,
@@ -67,8 +66,6 @@ describe("Testing hotel routes", () => {
     );
   });
 
-  test("Should be able to delete a hotel", async () => {});
-
   test("Should be able to return a registered hotel", async () => {
     const response = await request(app).get(`/hotel/${responsePOST.body.id}`);
 
@@ -76,11 +73,19 @@ describe("Testing hotel routes", () => {
     expect(response.body).toEqual(
       expect.objectContaining({
         id: responsePOST.body.id,
-        name: newHotel.name,
-        qtyBedRooms: newHotel.qtyBedRooms,
-        cnpj: newHotel.cnpj,
-        address: newHotel.address,
+        name: response.body.name,
+        qtyBedRooms: response.body.qtyBedRooms,
+        cnpj: response.body.cnpj,
+        address: response.body.address,
       })
     );
+  });
+
+  test("Should be able to delete a hotel", async () => {
+    const responseDelete = await request(app).delete(
+      `/hotel/${responsePOST.body.id}`
+    );
+    expect(responseDelete.status).toBe(200);
+    expect(responseDelete.body).toHaveProperty("message");
   });
 });

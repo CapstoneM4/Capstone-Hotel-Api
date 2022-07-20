@@ -36,7 +36,7 @@ class HotelService {
   static async readList(): Promise<Hotel[]> {
     const hotelRepository = AppDataSource.getRepository(Hotel);
     const hotelList = await hotelRepository.find();
-    console.log(hotelList);
+
     return hotelList;
   }
   //update
@@ -62,8 +62,10 @@ class HotelService {
     const hotelRepository = AppDataSource.getRepository(Hotel);
     const listHotel = await hotelRepository.find();
     const hotelDelete = listHotel.find((hotel) => hotel.id === id);
+    console.log(id);
+
     if (!hotelDelete) {
-      // throw new AppError("Hotel not found!", 400);
+      throw new AppError(400, "Hotel not found!");
     }
     await hotelRepository.delete(id);
     return;
