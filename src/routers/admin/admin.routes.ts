@@ -2,7 +2,6 @@ import { Router } from "express";
 import HotelController from "../../controllers/hotel/hotel.controller";
 import JobTitleController from "../../controllers/jobTitle/JobTitle.controller";
 
-
 const routesADM = Router();
 
 // Listagem e Criação de hotéis no banco de dados
@@ -42,7 +41,8 @@ routesADM.get(
   JobTitleController.listOne /*Controller de listagem do cargo do hotel*/
 );
 routesADM.patch(
-  "/:id/jobtitles/:id" /*Controller de alteração de dados do cargo no hotel*/
+  "/:id/jobtitles/:id",
+  JobTitleController.update /*Controller de alteração de dados do cargo no hotel*/
 );
 routesADM.delete(
   "/:id/jobtitles/:id",

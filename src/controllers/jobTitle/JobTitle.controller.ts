@@ -25,17 +25,22 @@ class JobTitleController {
   }
 
   static async update(req: Request, res: Response) {
-    const {id} = req.params
-    const {name, description} = req.body
+    const { id } = req.params;
+    const { name, description } = req.body;
 
-    const jobTitle = await JobTitleService.UpdateJobTitle({id, name, description})
-    return res.status(200).json(jobTitle)
+    const jobTitle = await JobTitleService.UpdateJobTitle({
+      id,
+      name,
+      description,
+    });
+    return res.status(200).json(jobTitle);
   }
 
   static async delete(req: Request, res: Response) {
     const { id } = req.params;
     const jobTitle = await JobTitleService.DeleteJobTitle(id);
-    return res.status(200).json(jobTitle);
+
+    return res.status(200).json({ message: "Job title deleted" });
   }
 }
 

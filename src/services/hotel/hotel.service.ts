@@ -62,7 +62,6 @@ class HotelService {
     const hotelRepository = AppDataSource.getRepository(Hotel);
     const listHotel = await hotelRepository.find();
     const hotelDelete = listHotel.find((hotel) => hotel.id === id);
-    console.log(id);
 
     if (!hotelDelete) {
       throw new AppError(400, "Hotel not found!");
