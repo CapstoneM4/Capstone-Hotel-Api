@@ -22,7 +22,7 @@ export class Services {
   @Column({ type: "decimal", precision: 8, scale: 2 })
   price: number;
 
-  @ManyToMany(() => BookingService, (bookingService) => bookingService.services)
+  @ManyToMany(() => BookingService, (bookingService) => bookingService.service)
   @JoinTable()
   bookingService: BookingService[];
 }

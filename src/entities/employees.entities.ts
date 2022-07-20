@@ -30,10 +30,7 @@ export class Employees {
   @Column({ default: true })
   isActive: boolean;
 
-  @ManyToMany(
-    () => BookingService,
-    (bookingService) => bookingService.employees
-  )
+  @ManyToMany(() => BookingService, (bookingService) => bookingService.employee)
   @JoinTable()
   bookingService: BookingService[];
 

@@ -33,11 +33,13 @@ routesEmployee.delete(
 //Criação dos booking service
 
 routesEmployee.get(
-  "/:id/booking/:id/service" /*Controller de listagem de dados do booking service*/
+  "/:id/booking/:idBooking/service",
+  BookingController.listBookingServices /*Controller de listagem de dados do booking service*/
 );
 
 routesEmployee.post(
-  "/:id/booking/:id/service" /*Controller de criação de dados do booking service*/
+  "/:id/booking/:idBooking/service",
+  BookingController.createBookingService /*Controller de criação de dados do booking service*/
 );
 
 //Criação de services no banco de dados
