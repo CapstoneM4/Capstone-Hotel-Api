@@ -1,15 +1,10 @@
 import AppDataSource from "../../data-source";
-import { Hotel } from "../../entities/systemHotel.entities";
 import { AppError } from "../../errors/AppError";
-import {
-  IHotelDelete,
-  IHotelSystemCreate,
-  IHotelUpdate,
-} from "../../interfaces/hotel";
+import { Hotel } from "../../entities/systemHotel.entities";
+import { IHotelSystemCreate, IHotelUpdate } from "../../interfaces/hotel";
 
-class HotelService {
-  //create
-  static async create({
+class HotelServices {
+  static async createHotelService({
     name,
     qtyBedRooms,
     cnpj,
@@ -32,49 +27,106 @@ class HotelService {
     await hotelRepository.save(hotel);
     return hotel;
   }
+
   //list All
-  static async readList(): Promise<Hotel[]> {
+  static async listHotelsService(): Promise<Hotel[]> {
     const hotelRepository = AppDataSource.getRepository(Hotel);
     const hotelList = await hotelRepository.find();
-    console.log(hotelList);
+
     return hotelList;
   }
-  //update
-  static async update({
-    id,
-    name,
-    cnpj,
-    address,
-    qtyBedRooms,
-  }: IHotelUpdate): Promise<Hotel> {
-    const hotelRepository = AppDataSource.getRepository(Hotel);
-    const hotel = await hotelRepository.findOneBy({ id: id });
-    if (!hotel) {
-      throw new AppError(400, "Hotel not Found!");
-    }
 
-    Object.assign(hotel, { name, cnpj, address, qtyBedRooms });
+  //listById
+  static async listByIdService(id: string): Promise<Hotel> {
+    const hotelRepository = AppDataSource.getRepository(Hotel);
+
+    const hotel = await hotelRepository.findOne({
+      where: {
+        id: id,
+      },
+    });
+
+    if (!hotel) {
+      throw new AppError(404, "Hotel not found!");
+    }
 
     return hotel;
   }
-  //delete
-  static async delete({ id }: IHotelDelete): Promise<void> {
-    const hotelRepository = AppDataSource.getRepository(Hotel);
-    const listHotel = await hotelRepository.find();
-    const hotelDelete = listHotel.find((hotel) => hotel.id === id);
-    if (!hotelDelete) {
-      // throw new AppError("Hotel not found!", 400);
-    }
-    await hotelRepository.delete(id);
-    return;
-  }
-  //list One
-  static async readInfo(id: string): Promise<Hotel | null> {
-    const hotelRepository = AppDataSource.getRepository(Hotel);
-    const hotelInfo = hotelRepository.findOneBy({ id: id });
 
-    return hotelInfo;
+  //updateHotel
+  static async updateHotelService(
+    id: string,
+    { name, qtyBedRooms, address }: IHotelUpdate
+  ): Promise<boolean> {
+    const hotelRepository = AppDataSource.getRepository(Hotel);
+
+    const hotel = await hotelRepository.findOne({
+      where: {
+        id: id,
+      },
+    });
+
+    if (!hotel) {
+      throw new AppError(404, "Hotel not found!");
+    } else if (hotel.name === name) {
+      throw new AppError(400, "Name already in use!");
+    } else if (hotel.qtyBedRooms === qtyBedRooms) {
+      throw new AppError(400, `Hotel already has ${qtyBedRooms} Bedrooms!`);
+    } else if (hotel.address === address) {
+      throw new AppError(400, `Hotel already registered in ${address}!`);
+    }
+
+    name
+      ? await hotelRepository
+          .createQueryBuilder()
+          .update(Hotel)
+          .set({ name: name })
+          .where("id = :id", { id: id })
+          .execute()
+      : qtyBedRooms
+      ? await hotelRepository
+          .createQueryBuilder()
+          .update(Hotel)
+          .set({ qtyBedRooms: qtyBedRooms })
+          .where("id = :id", { id: id })
+          .execute()
+      : address &&
+        (await hotelRepository
+          .createQueryBuilder()
+          .update(Hotel)
+          .set({ address: address })
+          .where("id = :id", { id: id })
+          .execute());
+
+    return true;
+  }
+
+  //deleteById
+  static async deleteHotelService(id: string): Promise<boolean> {
+    const hotelRepository = AppDataSource.getRepository(Hotel);
+
+    const hotel = await hotelRepository.findOne({
+      where: {
+        id: id,
+      },
+    });
+
+    if (!hotel) {
+      throw new AppError(404, "Hotel not found!");
+    }
+
+    if (hotel.rooms.length > 0) {
+      throw new AppError(403, "Hotel has rooms registered");
+    }
+
+    await hotelRepository
+      .createQueryBuilder()
+      .delete()
+      .from(Hotel)
+      .where("id = :id", { id: id })
+      .execute();
+
+    return true;
   }
 }
-
-export default HotelService;
+export default HotelServices;

@@ -10,11 +10,9 @@ export interface IHotelSystem extends IHotelSystemCreate {
 }
 
 export interface IHotelUpdate {
-  id: string;
   name?: string;
   qtyBedRooms?: number;
-  cnpj?: string;
-  address?: boolean;
+  address?: string;
 }
 
 export interface IHotelDelete {

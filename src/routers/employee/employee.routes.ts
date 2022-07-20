@@ -1,9 +1,7 @@
 import { Router } from "express";
 import ServicesHotelController from "../../controllers/servicesHotel";
-
+import BookingController from "../../controllers/booking/booking.controllers";
 const routesEmployee = Router();
-
-import BookingController from "../../controllers/booking";
 
 //Criação de booking
 routesEmployee.post(
@@ -22,11 +20,11 @@ routesEmployee.patch(
   BookingController.updateHotelBooking /*Controller de alteração de dados do booking*/
 );
 routesEmployee.get(
-  "/:id/booking/:idBooking",
+  "/booking/:idBooking",
   BookingController.listOneBooking /*Controller de listagem de dados do booking*/
 );
 routesEmployee.delete(
-  "/:id/booking/:idBooking",
+  "/booking/:idBooking",
   BookingController.deleteHotelBooking /*Controller de deleção do booking*/
 );
 

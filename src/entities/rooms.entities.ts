@@ -38,7 +38,7 @@ export class Rooms {
   @OneToMany(() => Booking, (booking) => booking.room)
   booking: Booking[];
 
-  @ManyToOne(() => RoomType, { eager: true })
+  @ManyToOne(() => RoomType, (roomType) => roomType.rooms, { eager: true })
   roomType: RoomType;
 
   constructor() {

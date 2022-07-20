@@ -12,6 +12,8 @@ export class JobTitles {
   @Column({ length: 200 })
   description: string;
 
-  @OneToMany(() => Employees, (employees) => employees.jobTitles)
+  @OneToMany(() => Employees, (employees) => employees.jobTitles, {
+    onDelete: "CASCADE",
+  })
   employees: Employees[];
 }

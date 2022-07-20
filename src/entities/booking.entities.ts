@@ -34,7 +34,7 @@ export class Booking {
   @OneToMany(() => BookingService, (bookingService) => bookingService.booking)
   bookingService: BookingService[];
 
-  @ManyToOne(() => Hotel)
+  @ManyToOne(() => Hotel, (hotel) => hotel.booking)
   hotel: string;
 
   @ManyToOne(() => Clients, (client) => client.booking)

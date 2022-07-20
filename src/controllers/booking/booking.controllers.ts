@@ -1,15 +1,12 @@
 import { Request, Response } from "express";
-import BookingServiceClass from "../../services/employee/employee.services";
+import BookingServiceClass from "../../services/booking/booking.services";
 
 class BookingController {
   static async createBooking(req: Request, res: Response) {
     const idHotel = req.params.id;
-    const { checkinDate, checkoutDate, isPaid, qtyClients, idClient, idRoom } =
-      req.body;
+    const { isPaid, qtyClients, idClient, idRoom } = req.body;
 
     const newBooking = await BookingServiceClass.createBooking({
-      checkinDate,
-      checkoutDate,
       isPaid,
       qtyClients,
       idHotel,

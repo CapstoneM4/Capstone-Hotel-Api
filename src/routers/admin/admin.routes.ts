@@ -1,12 +1,17 @@
 import { Router } from "express";
-import HotelController from "../../controllers/hotel/hotel.controller";
+import EmployeesControllers from "../../controllers/employees/employees.controllers";
+import HotelController from "../../controllers/hotel/hotel.controllers";
 import JobTitleController from "../../controllers/jobTitle/JobTitle.controller";
-
+import RoomsControllers from "../../controllers/rooms/rooms.controllers";
 
 const routesADM = Router();
 
+//======HOTEL
 // Listagem e Criação de hotéis no banco de dados
-routesADM.post("", HotelController.create /*Controller de criação do hotel*/);
+routesADM.post(
+  "",
+  HotelController.createHotel /*Controller de criação do hotel*/
+);
 routesADM.get(
   "",
   HotelController.listHotel /*Controller de listagem dos hotéis*/
@@ -15,17 +20,18 @@ routesADM.get(
 //Alterações de dados do hotel no banco de dados
 routesADM.patch(
   "/:id",
-  HotelController.update /*Controller de alteração de dados do hotel*/
+  HotelController.updateHotel /*Controller de alteração de dados do hotel*/
 );
 routesADM.delete(
   "/:id",
-  HotelController.delete /*Controller de deleção do hotel*/
+  HotelController.deleteHotel /*Controller de deleção do hotel*/
 );
 routesADM.get(
   "/:id",
-  HotelController.infoHotel /*Controller de listagem do hotel*/
+  HotelController.listHotelById /*Controller de listagem do hotel*/
 );
 
+//========CARGOS
 //Criação e listagem de cargos
 routesADM.post(
   "/:id/jobtitles",
@@ -33,39 +39,69 @@ routesADM.post(
 );
 routesADM.get(
   "/:id/jobtitles",
-  JobTitleController.listAll /*Controller de listagem dos cargos do hotel*/
+  JobTitleController.listOne /*Controller de listagem dos cargos do hotel*/
 );
 
 //Alterações de dados nos cargos
 routesADM.get(
-  "/:id/jobtitles/:id",
+  "/jobtitles",
   JobTitleController.listOne /*Controller de listagem do cargo do hotel*/
 );
 routesADM.patch(
-  "/:id/jobtitles/:id" /*Controller de alteração de dados do cargo no hotel*/
+  "/:id/jobtitles",
+  JobTitleController.update /*Controller de alteração de dados do cargo no hotel*/
 );
 routesADM.delete(
-  "/:id/jobtitles/:id",
+  "/:id/jobtitles",
   JobTitleController.delete /*Controller de deleção de dados do cargo no hotel*/
 );
 
+//============== ROOMS
 //Criação e listagem dos quartos do hotel
-routesADM.get("/:id/rooms" /*Controller de listagem dos quartos do hotel*/);
-routesADM.post("/:id/rooms" /*Controller de criação do quarto do hotel*/);
+routesADM.get(
+  "/rooms/:id",
+  RoomsControllers.listRooms /*Controller de listagem dos quartos do hotel*/
+);
+routesADM.post(
+  "/rooms/:id",
+  RoomsControllers.createRooms /*Controller de criação do quarto do hotel*/
+);
 
 //Alterações de dados dos quartos
-routesADM.get("/:id/rooms/:id" /*Controller de listagem do quarto do hotel*/);
-routesADM.patch(
-  "/:id/rooms/:id" /*Controller de alterações de dados do quarto do hotel*/
+routesADM.get(
+  "/:id/rooms",
+  RoomsControllers.listRoomsByid /*Controller de listagem do quarto do hotel*/
 );
-routesADM.delete("/:id/rooms/:id" /*Controller de deleção do quarto do hotel*/);
+routesADM.patch(
+  "/rooms/:id",
+  RoomsControllers.updateRoom /*Controller de alterações de dados do quarto do hotel*/
+);
+routesADM.delete(
+  "/rooms/:id",
+  RoomsControllers.deleteRoom /*Controller de deleção do quarto do hotel*/
+);
 
+//=========== EMPLOYEES
 //Criação de funcionários
 routesADM.post(
-  "/:id/employees" /*Controller de criação dos funcionários do hotel*/
+  "/employees/:id",
+  EmployeesControllers.createEmployees /*faltando id do hotel ex: "/:id/employees" */
 );
 routesADM.get(
-  "/:id/employees" /*Controller de listagem dos funcionários do hotel*/
+  "/employees/:id",
+  EmployeesControllers.listEmployees /*Controller de listagem dos funcionários do hotel*/
 );
+routesADM.patch(
+  "/employees/:id",
+  EmployeesControllers.updateEmployee /*Atualizar dados do funcionario */
+);
+routesADM.get(
+  "/:id/employees",
+  EmployeesControllers.listEmployeesByHotel /*Controller de listagem dos funcionários do hotel*/
+);
+// routesADM.patch(
+//   "/:id/employees",
+//   EmployeesControllers.listEmployeesByHotel /*Controller de listagem dos funcionários do hotel*/
+// );
 
 export default routesADM;

@@ -21,13 +21,13 @@ export class Hotel {
   @Column({ length: 150 })
   address: string;
 
-  @OneToMany(() => Employees, (employees) => employees.hotel)
+  @OneToMany(() => Employees, (employees) => employees.hotel, { eager: true })
   employees: Employees[];
 
-  @OneToMany(() => Rooms, (rooms) => rooms.hotel)
+  @OneToMany(() => Rooms, (rooms) => rooms.hotel, { eager: true })
   rooms: Rooms[];
 
-  @OneToMany(() => Booking, (booking) => booking.hotel)
+  @OneToMany(() => Booking, (booking) => booking.hotel, { eager: true })
   booking: Booking[];
 
   constructor() {
