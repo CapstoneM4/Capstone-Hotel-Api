@@ -4,3 +4,4 @@ yarn.lock
 .env
 migrations
 node_modules
+npm-debug.log
