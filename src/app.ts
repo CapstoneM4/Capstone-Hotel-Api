@@ -4,7 +4,7 @@ import "reflect-metadata";
 import routesADM from "./routers/admin/admin.routes";
 import routesClients from "./routers/clients/clients.routes";
 import routesEmployee from "./routers/employee/employee.routes";
-import handleAppErrorMiddleware from "./middlewares/handdleError.middleware";
+import handleAppErrorMiddleware from "./middlewares/handleAppError.middleware";
 import "dotenv/config";
 
 const app = express();
