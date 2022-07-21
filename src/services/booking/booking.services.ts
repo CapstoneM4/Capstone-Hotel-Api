@@ -211,7 +211,7 @@ class BookingServiceClass {
     }
 
     const newBookingService = new BookingService();
-    newBookingService.service = idService;
+    // newBookingService.service = idService;
     // newBookingService.employee = idEmployee;
     // newBookingService.booking = idBooking;
 
