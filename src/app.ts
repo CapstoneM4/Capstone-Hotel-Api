@@ -4,7 +4,7 @@ import routesADM from "./routers/admin/admin.routes";
 import routesClients from "./routers/clients/clients.routes";
 import routesEmployee from "./routers/employee/employee.routes";
 import handleAppErrorMiddleware from "./middlewares/handdleError.middleware";
-import { env } from "process";
+import "dotenv/config";
 
 const app = express();
 app.use(express.json());
