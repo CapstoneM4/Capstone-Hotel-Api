@@ -1,7 +1,11 @@
 import AppDataSource from "../../data-source";
 import { AppError } from "../../errors/AppError";
 import { Hotel } from "../../entities/systemHotel.entities";
-import { IHotelSystemCreate, IHotelUpdate } from "../../interfaces/hotel";
+import {
+  IHotelDelete,
+  IHotelSystemCreate,
+  IHotelUpdate,
+} from "../../interfaces/hotel";
 
 class HotelServices {
   static async createHotelService({
@@ -66,7 +70,7 @@ class HotelServices {
     return;
   }
   //list One
-  static async readInfo(id: string): Promise<Hotel | null> {
+  static async readInfo(id: string) {
     const hotelRepository = AppDataSource.getRepository(Hotel);
     const hotelInfo = hotelRepository.findOneBy({ id: id });
   }

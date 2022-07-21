@@ -1,6 +1,6 @@
 import AppDataSource from "../../data-source";
 import { AppError } from "../../errors/AppError";
-import { hash } from "bcryptjs";
+import { hash } from "bcrypt";
 import { IEmployeesRequest, IEmployeeUpdate } from "../../interfaces/employee";
 import { Hotel } from "../../entities/systemHotel.entities";
 import { Employees } from "../../entities/employees.entities";

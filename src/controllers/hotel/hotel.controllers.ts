@@ -16,7 +16,7 @@ class HotelControllers {
 
   static async listHotel(req: Request, res: Response) {
     const listDb = await HotelServices.listHotelsService();
-    return res.status(201).json(listDb);
+    return res.status(200).json(listDb);
   }
 
   static async listHotelById(req: Request, res: Response) {

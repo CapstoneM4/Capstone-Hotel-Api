@@ -2,6 +2,7 @@ import { Router } from "express";
 import EmployeesControllers from "../../controllers/employees/employees.controllers";
 import HotelController from "../../controllers/hotel/hotel.controllers";
 import JobTitleController from "../../controllers/jobTitle/JobTitle.controller";
+import RoomsControllers from "../../controllers/rooms/rooms.controllers";
 
 const routesADM = Router();
 
