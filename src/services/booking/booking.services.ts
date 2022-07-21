@@ -63,9 +63,9 @@ class BookingServiceClass {
     newBooking.checkoutDate = new Date();
     newBooking.isPaid = isPaid;
     newBooking.qtyClients = qtyClients;
-    // newBooking.hotel = idHotel;
-    // newBooking.client = idClient;
-    // newBooking.room = idRoom;
+    newBooking.hotel = hotelExists;
+    newBooking.client = clientExists;
+    newBooking.room = roomExists;
 
     this.bookingRepository.create(newBooking);
     await this.bookingRepository.save(newBooking);
@@ -144,15 +144,15 @@ class BookingServiceClass {
     if (qtyClients) {
       bookingToUpdate!.qtyClients = qtyClients;
     }
-    // if (idHotel) {
-    //   bookingToUpdate!.hotel = idHotel;
-    // }
-    // if (idClient) {
-    //   bookingToUpdate!.client = idClient;
-    // }
-    // if (idRoom) {
-    //   bookingToUpdate!.room = idRoom;
-    // }
+    if (idHotel) {
+      bookingToUpdate!.hotel = hotelExists;
+    }
+    if (idClient) {
+      bookingToUpdate!.client = clientExists;
+    }
+    if (idRoom) {
+      bookingToUpdate!.room = roomExists;
+    }
 
     await this.bookingRepository.update(bookingToUpdate!.id, bookingToUpdate);
 
@@ -211,9 +211,9 @@ class BookingServiceClass {
     }
 
     const newBookingService = new BookingService();
-    // newBookingService.service = idService;
-    // newBookingService.employee = idEmployee;
-    // newBookingService.booking = idBooking;
+    newBookingService.service = service;
+    newBookingService.employee = employee;
+    newBookingService.booking = booking;
 
     this.bookingServiceRepository.create(newBookingService);
     await this.bookingServiceRepository.save(newBookingService);
@@ -224,13 +224,13 @@ class BookingServiceClass {
   static async listBookingServices({ idBooking }: IGetBookingServices) {
     const bookingServicesAll = await this.bookingServiceRepository.find();
 
-    // const bookingServices = bookingServicesAll.filter(
-    //   (bookingService) => bookingService.booking == idBooking
-    // );
+    const bookingServices = bookingServicesAll.filter(
+      (bookingService) => bookingService.booking.id == idBooking
+    );
 
-    // if (!bookingServices) {
-    //   throw new AppError(404, "Couldn't find any room service to this booking");
-    // }
+    if (!bookingServices) {
+      throw new AppError(404, "Couldn't find any room service to this booking");
+    }
 
     return bookingServicesAll;
   }

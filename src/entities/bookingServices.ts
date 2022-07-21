@@ -17,11 +17,11 @@ export class BookingService {
 
   @ManyToMany(() => Services, (services) => services.bookingService)
   @JoinTable()
-  service: Services[];
+  service: Services;
 
   @ManyToMany(() => Employees, (employees) => employees.bookingService)
   @JoinTable()
-  employee: Employees[];
+  employee: Employees;
 
   @ManyToOne(() => Booking, (booking) => booking.bookingService)
   booking: Booking;

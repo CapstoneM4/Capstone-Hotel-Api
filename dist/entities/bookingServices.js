@@ -29,12 +29,12 @@ __decorate([
 __decorate([
     (0, typeorm_1.ManyToMany)(() => services_entities_1.Services, (services) => services.bookingService),
     (0, typeorm_1.JoinTable)(),
-    __metadata("design:type", Array)
+    __metadata("design:type", services_entities_1.Services)
 ], BookingService.prototype, "service", void 0);
 __decorate([
     (0, typeorm_1.ManyToMany)(() => employees_entities_1.Employees, (employees) => employees.bookingService),
     (0, typeorm_1.JoinTable)(),
-    __metadata("design:type", Array)
+    __metadata("design:type", employees_entities_1.Employees)
 ], BookingService.prototype, "employee", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => booking_entities_1.Booking, (booking) => booking.bookingService),

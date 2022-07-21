@@ -45,9 +45,9 @@ class BookingServiceClass {
             newBooking.checkoutDate = new Date();
             newBooking.isPaid = isPaid;
             newBooking.qtyClients = qtyClients;
-            // newBooking.hotel = idHotel;
-            // newBooking.client = idClient;
-            // newBooking.room = idRoom;
+            newBooking.hotel = hotelExists;
+            newBooking.client = clientExists;
+            newBooking.room = roomExists;
             this.bookingRepository.create(newBooking);
             yield this.bookingRepository.save(newBooking);
             return newBooking;
@@ -103,15 +103,15 @@ class BookingServiceClass {
             if (qtyClients) {
                 bookingToUpdate.qtyClients = qtyClients;
             }
-            // if (idHotel) {
-            //   bookingToUpdate!.hotel = idHotel;
-            // }
-            // if (idClient) {
-            //   bookingToUpdate!.client = idClient;
-            // }
-            // if (idRoom) {
-            //   bookingToUpdate!.room = idRoom;
-            // }
+            if (idHotel) {
+                bookingToUpdate.hotel = hotelExists;
+            }
+            if (idClient) {
+                bookingToUpdate.client = clientExists;
+            }
+            if (idRoom) {
+                bookingToUpdate.room = roomExists;
+            }
             yield this.bookingRepository.update(bookingToUpdate.id, bookingToUpdate);
             return bookingToUpdate;
         });
@@ -155,9 +155,9 @@ class BookingServiceClass {
                 throw new AppError_1.AppError(404, "Couldn't find employee");
             }
             const newBookingService = new bookingServices_1.BookingService();
-            // newBookingService.service = idService;
-            // newBookingService.employee = idEmployee;
-            // newBookingService.booking = idBooking;
+            newBookingService.service = service;
+            newBookingService.employee = employee;
+            newBookingService.booking = booking;
             this.bookingServiceRepository.create(newBookingService);
             yield this.bookingServiceRepository.save(newBookingService);
             return newBookingService;
@@ -166,12 +166,10 @@ class BookingServiceClass {
     static listBookingServices({ idBooking }) {
         return __awaiter(this, void 0, void 0, function* () {
             const bookingServicesAll = yield this.bookingServiceRepository.find();
-            // const bookingServices = bookingServicesAll.filter(
-            //   (bookingService) => bookingService.booking == idBooking
-            // );
-            // if (!bookingServices) {
-            //   throw new AppError(404, "Couldn't find any room service to this booking");
-            // }
+            const bookingServices = bookingServicesAll.filter((bookingService) => bookingService.booking.id == idBooking);
+            if (!bookingServices) {
+                throw new AppError_1.AppError(404, "Couldn't find any room service to this booking");
+            }
             return bookingServicesAll;
         });
     }
