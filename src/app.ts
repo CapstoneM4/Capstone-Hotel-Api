@@ -15,7 +15,7 @@ app.use("/service", routesEmployee);
 app.use("/clients", routesClients);
 app.use(handleAppErrorMiddleware);
 
-app.listen(3000, () => {
+app.listen(process.env.PORT || 3000, () => {
   console.log("App runing");
 });
 export default app;
