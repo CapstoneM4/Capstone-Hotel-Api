@@ -21,10 +21,10 @@ export class BookingService {
 
   @ManyToMany(() => Employees, (employees) => employees.bookingService)
   @JoinTable()
-  employee: BookingService;
+  employee: Employees;
 
   @ManyToOne(() => Booking, (booking) => booking.bookingService)
-  booking: BookingService;
+  booking: Booking;
 
   constructor() {
     if (!this.id) {

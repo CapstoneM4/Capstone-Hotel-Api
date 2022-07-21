@@ -36,10 +36,10 @@ export class Booking {
   hotel: Hotel;
 
   @ManyToOne(() => Clients, (client) => client.booking)
-  client: Hotel;
+  client: Clients;
 
   @ManyToOne(() => Rooms, (room) => room.booking, { eager: true })
-  room: Hotel;
+  room: Rooms;
 
   constructor() {
     if (!this.id) {
