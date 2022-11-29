@@ -1,6 +1,7 @@
 # System Hotel API
 
-![1.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/2e901fe6-ee11-42dc-8827-a21fe59d962d/1.png)
+
+![1](https://user-images.githubusercontent.com/91641613/204641172-6ee3f094-7d9a-4207-b9a7-30a50d876f9d.png)
 
 ## DESCRIPTION
 
@@ -45,7 +46,9 @@
 
     .env.example
 
-![env-example.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f9d8014f-47f0-4f06-8f59-991ec04efd8e/env-example.png)
+     
+![env-example](https://user-images.githubusercontent.com/91641613/204641101-b0e6defb-f320-409e-89e4-30338faf1c0e.png)
+
 
 **4 - Run locally with Docker:**
 
