@@ -37,7 +37,7 @@
 
  **2 - Installing dependencies:**
 
-     ****run in project terminal: **yarn install**
+     run in project terminal: yarn install
 
  **3 - Create and configure .env:**
 
@@ -51,8 +51,8 @@
 
     run in project terminal: 
 
-       **docker compose up** 
+       docker compose up
 
-       **docker exec api_system_hotel yarn typeorm migration:run -d src/data-source.ts**
+       docker exec api_system_hotel yarn typeorm migration:run -d src/data-source.ts
 
    access on: `http://localhost:3000/hotel`
