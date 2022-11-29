@@ -34,7 +34,7 @@
 
  **1 - Clone project:**
 
-      $ git clone [git@github.com](mailto:git@github.com):CapstoneM4/System-Hotel.git
+      $ git clone git@github.com:CapstoneM4/System-Hotel.git
 
  **2 - Installing dependencies:**
 
