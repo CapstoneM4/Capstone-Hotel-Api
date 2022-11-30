@@ -9,7 +9,7 @@
 
 ### **What is System Hotel?**
 
- API developed to create and manage Hotels system
+ API developed for hotel management
 
 ### **Project** **details**
 
